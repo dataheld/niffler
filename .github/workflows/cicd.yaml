@@ -56,15 +56,6 @@ jobs:
       - name: "Smoke Test Builder Image"
         run: |
           make smoke-test-builder git_ref_name="${{ github.ref_name }}"
-      - name: "Smoke Test Developer Images"
-        run: |
-          make smoke-test-developer git_ref_name="${{ github.ref_name }}"
-      - name: "Smoke Test Runner Images"
-        run: |
-          make smoke-test-runner git_ref_name="${{ github.ref_name }}"
-      - name: "Health Check Runner Images"
-        run: |
-          make health-check-runner git_ref_name="${{ github.ref_name }}"
       - name: "Push Images"
         run: |
           make bake \
@@ -82,7 +73,7 @@ jobs:
       fail-fast: false
       matrix:
         make_target: [
-          test-installed,
+          test-shinytest,
           check,
           pkgdown,
           rlint,

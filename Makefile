@@ -56,6 +56,14 @@ roxygenise:
 	rm DESCRIPTION
 	mv DESCRIPTION_clean DESCRIPTION
 
+# NAMESPACE file is derivative, so must be in sync with code
+# must be on GitHub, b/c otherwise namespace can be broken
+check-clean-namespace: roxygenise
+	git diff --exit-code NAMESPACE \
+		|| (echo "'NAMESPACE' is not in sync with the source. \
+		Try running 'make roxygenise' locally and commit."; \
+		exit 1)
+
 check: roxygenise
 	Rscript \
 		-e "rcmdcheck::rcmdcheck(args = c('--no-manual', '--no-tests'), error_on = 'note' )"
