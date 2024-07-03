@@ -25,6 +25,10 @@ LazyData: true
 Language: en
 Roxygen: list(markdown = TRUE)
 Imports:
+    checkmate,
+    glue,
+    purrr,
+    rlang,
     shiny
 Suggests: 
     shinytest2,
