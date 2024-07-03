@@ -1,0 +1,33 @@
+Package: module2app
+Title: Development helpers for working with shiny modules
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+      person(
+        given = "Maximilian",
+        family = "Held",
+        role = c("aut", "cre"),
+        email = "info@maxheld.de",
+        comment = c(ORCID = "0000-0002-4703-5388")
+      ),
+      person(
+        given = "Max Held Data Science",
+        role = c("cph", "fnd")
+      )
+    )
+Description: 
+    Lets you quickly create shiny apps from modules.
+URL: https://github.com/dataheld/module2app
+BugReports: https://github.com/dataheld/module2app/issues
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Language: en
+Roxygen: list(markdown = TRUE)
+Imports:
+    shiny
+Suggests: 
+    shinytest2,
+    testthat
+Config/testthat/edition: 3
+Config/testthat/parallel: true

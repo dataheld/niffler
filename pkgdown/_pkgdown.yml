@@ -1,0 +1,7 @@
+---
+authors:
+  Maximilian Held:
+    href: http://www.maxheld.de
+template:
+  bootstrap: 5
+  bootswatch: cosmo
