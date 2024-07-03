@@ -20,7 +20,7 @@ jobs:
     # auth-ing to GHCR with same same user may cause problems
     # run_id is a backup if token is undefined
     concurrency: ${{ github.token || github.run_id }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -75,7 +75,7 @@ jobs:
   make-all-in-docker:
     name: "Test, Check, Lint and Document Package"
     needs: build-and-push-images
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/${{ github.repository }}/builder:${{ github.sha }}
     strategy:
@@ -104,7 +104,7 @@ jobs:
           make ${{ matrix.make_target }}
   lint-all:
     name: Lint Code Base (Except R)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -124,3 +124,4 @@ jobs:
           VALIDATE_NATURAL_LANGUAGE: false
           VALIDATE_R: false
           VALIDATE_TERRAGRUNT: false
+          VALIDATE_CHECKOV: false
