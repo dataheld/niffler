@@ -1,5 +1,5 @@
-Package: module2app
-Title: Development helpers for working with shiny modules
+Package: niffler
+Title: Shiny development helpers
 Version: 0.0.0.9000
 Authors@R: 
     c(
@@ -16,9 +16,9 @@ Authors@R:
       )
     )
 Description: 
-    Lets you quickly create shiny apps from modules.
-URL: https://github.com/dataheld/module2app
-BugReports: https://github.com/dataheld/module2app/issues
+    Helpers for shiny development.
+URL: https://github.com/dataheld/niffler
+BugReports: https://github.com/dataheld/niffler/issues
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -35,3 +35,4 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/testthat/parallel: true
+Config/Needs/website: rmarkdown

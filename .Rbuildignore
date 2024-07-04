@@ -28,3 +28,4 @@ super-linter.log
 cache/
 .lintr
 .githooks
+^vignettes/articles$

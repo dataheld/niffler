@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(module2app)
+library(niffler)
 
-test_check("module2app")
+test_check("niffler")

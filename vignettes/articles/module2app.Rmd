@@ -1,0 +1,25 @@
+---
+title: "niffler"
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(niffler)
+```
+
+
+# Testbed for Modules
+
+## Reactive and non-Reactive Inputs
+
+Notice that it is the responsibility of your module server to
+assert whichever kinds of inputs it expects.
+Consider these [recommendations on server inputs](https://mastering-shiny.org/scaling-modules.html#server-inputs)
+on how to do this.
