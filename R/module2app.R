@@ -1,27 +1,48 @@
-#' Show modules in a full app
-#' @param module_ui,module_server Module functions
+#' Show a module in a full app
+#'
+#' During development of shiny modules,
+#' it can be helpful to see and test a module in the context of a shiny app.
+#' This function wraps the module UI and server functions in full shiny
+#' app for those purposes.
+#' You can also pass reactive values to the server function,
+#' to observe how your module reacts to them.
+#'
+#' @details
+#' If you only want to test the server logic of a module,
+#' you don't need this function.
+#' You can just pass the module server function to [shiny::testServer()].
+#' Hadley Wickhams Mastering Shiny as a section on
+#' [testing modules](https://mastering-shiny.org/scaling-testing.html#modules).
+#'
+#' @param module_ui,module_server
+#' Module functions.
 #' @param ui_args,server_args
 #' Additional arguments passed to `module_server`and `module_ui`.
 #' `server_args` can be [shiny::reactive()]s,
 #' if corresponding argument in `module_server` accepts it.
-#' @family helpers
+#' @inheritParams shiny::shinyApp
+#' @inheritDotParams shiny::shinyApp
+#' @example inst/examples/value/value.R
 #' @export
 module2app <- function(module_ui = NULL,
                        module_server = NULL,
                        ui_args = list(),
-                       server_args = list()) {
+                       server_args = list(),
+                       options = list(test.mode = TRUE),
+                       ...) {
   shiny::shinyApp(
     ui = module2app_ui(module_ui, ui_args),
     server = module2app_server(module_server, server_args),
-    options = list(test.mode = TRUE)
+    options = options,
+    ...
   )
 }
 
 #' @describeIn module2app UI
 #' @export
 module2app_ui <- function(module_ui = NULL, ui_args = list()) {
+  checkmate::assert_function(module_ui, args = c("id"), null.ok = TRUE)
   if (is.null(module_ui)) module_ui <- no_fun_provided_ui
-  checkmate::assert_function(module_ui, args = c("id"))
   checkmate::assert_list(ui_args)
   module_ui <- purrr::partial(module_ui, !!!ui_args)
   ui_wrapper(
@@ -43,8 +64,8 @@ ui_wrapper <- function(...) {
 #' @describeIn module2app Server
 #' @export
 module2app_server <- function(module_server = NULL, server_args = list()) {
+  checkmate::assert_function(module_server, args = c("id"), null.ok = TRUE)
   if (is.null(module_server)) module_server <- no_fun_provided_server
-  checkmate::assert_function(module_server, args = c("id"))
   checkmate::assert_list(server_args)
   module_server <- purrr::partial(module_server, !!!server_args)
   function(input, output, session) {
