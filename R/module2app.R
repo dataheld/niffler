@@ -22,7 +22,6 @@
 #' if corresponding argument in `module_server` accepts it.
 #' @inheritParams shiny::shinyApp
 #' @inheritDotParams shiny::shinyApp
-#' @example inst/examples/value/value.R
 #' @export
 module2app <- function(module_ui = NULL,
                        module_server = NULL,

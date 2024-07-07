@@ -44,7 +44,7 @@ sysdeps: DESCRIPTION
 
 rdeps: DESCRIPTION
 	Rscript -e \
-	"remotes::install_deps(lib = Sys.getenv('R_LIBS_RUNTIME'))"
+	"remotes::install_deps(lib = Sys.getenv('R_LIBS_RUNTIME'), dependencies = TRUE)"
 
 # hack is the easiest crossplatform way I could think of;
 # sed -i won't play nice with macOS
