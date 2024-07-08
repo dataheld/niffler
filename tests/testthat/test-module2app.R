@@ -29,3 +29,13 @@ test_that("works with only server input", {
   withr::defer(driver$stop())
   expect_equal(driver$get_value(export = "res"), 0)
 })
+test_that("works with both inputs", {
+  skip_if_load_all2()
+  driver <- shinytest2::AppDriver$new(
+    source_pef("module2app", "simple", "both-funs")
+  )
+  withr::defer(driver$stop())
+  expect_equal(driver$get_value(output = "res"), capture.output(print(0)))
+  driver$click(selector = "#test_object-button")
+  expect_equal(driver$get_value(output = "res"), capture.output(print(1)))
+})

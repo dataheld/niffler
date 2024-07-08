@@ -75,7 +75,7 @@ module2app_server <- function(module_server = NULL, server_args = list()) {
     res <- notify_non_reactive_returns(module_server(id = "test_object"))
     if (shiny::is.reactive(res)) {
       shiny::exportTestValues(res = res())
-      output$res <- shiny::renderPrint(res)
+      output$res <- shiny::renderPrint(exec_tree_of_reacs(res))
     } else {
       shiny::exportTestValues(res = res)
     }
