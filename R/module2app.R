@@ -22,9 +22,6 @@
 #' Additional arguments passed to `module_server`and `module_ui`.
 #' `server_args` can be [shiny::reactive()]s,
 #' if corresponding argument in `module_server` accepts it.
-#' @example inst/examples/module2app/simple/no-funs.R
-#' @example inst/examples/module2app/simple/only-ui.R
-#' @example inst/examples/module2app/simple/only-server.R
 #' @inheritParams shiny::shinyApp
 #' @inheritDotParams shiny::shinyApp
 #' @export
