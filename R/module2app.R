@@ -1,3 +1,5 @@
+# module2app helper ====
+
 #' Show a module in a full app
 #'
 #' During development of shiny modules,
@@ -49,10 +51,9 @@ module2app_ui <- function(module_ui = NULL, ui_args = list()) {
     shiny::h2("Reactive Server Arguments"),
     shiny::verbatimTextOutput("server_args_react"),
     shiny::h2("Module UI"),
-    module_ui(id = "test"),
+    module_ui(id = "test_object"),
     shiny::h2("Reactive Server Return Values"),
-    shiny::verbatimTextOutput("res"),
-    title = "module2app"
+    shiny::verbatimTextOutput("res")
   )
 }
 
@@ -71,11 +72,29 @@ module2app_server <- function(module_server = NULL, server_args = list()) {
     output$server_args_react <- shiny::renderPrint(
       filter_react_els(server_args)
     )
-    module_res <- module_server("test")
-    res <- shiny::reactive(exec_tree_of_reacs(module_res))
-    output$res <- shiny::renderPrint(res())
-    shiny::exportTestValues(res = res())
+    res <- notify_non_reactive_returns(module_server(id = "test_object"))
+    if (shiny::is.reactive(res)) {
+      shiny::exportTestValues(res = res())
+      output$res <- shiny::renderPrint(res)
+    } else {
+      shiny::exportTestValues(res = res)
+    }
   }
+}
+
+notify_non_reactive_returns <- function(x) {
+  if (!shiny::is.reactive(x)) {
+    shiny::showNotification(
+      shiny::tags$h5("Module server had a non-reactive return value."),
+      shiny::p(
+        "Non-reactive return values are allowed, but are not shown here."
+      ),
+      duration = NULL,
+      type = "message"
+    )
+    shiny::reactive(NULL)
+  }
+  x
 }
 
 filter_react_els <- function(x = list()) {
@@ -84,14 +103,25 @@ filter_react_els <- function(x = list()) {
 
 no_fun_provided_ui <- function(id, x = "ui") {
   shiny::NS(id) # unused
-  shiny::tagList(shiny::p(no_fun_provided_glue(x)))
+  shiny::tagList(
+    shiny::div(
+      shiny::tags$em(no_fun_provided_glue(x)),
+      class = "bg-info"
+    )
+  )
 }
 
 no_fun_provided_server <- function(id, x = "server") {
   shiny::moduleServer(
     id = id,
     module = function(input, output, session) {
-      shiny::reactive(no_fun_provided_glue(x))
+      shiny::showNotification(
+        shiny::tags$h5(no_fun_provided_glue(x)),
+        duration = NULL,
+        id = id
+      )
+      # above, confusingly, returns the ID as a string instead of NULL
+      NULL
     }
   )
 }
