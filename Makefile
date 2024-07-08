@@ -22,7 +22,7 @@ all-outside-docker: superlint bake
 	make health-checks
 	make superlint
 
-all-in-docker: rlint test check pkgdown test-shinytest
+all-in-docker: rlint test check pkgdown test-installed
 
 bake:
 	TAG_FROM_GIT_SHA=$(tag_from_git_sha) \
@@ -77,9 +77,9 @@ show_pkgdown: pkgdown
 test: roxygenise
 	Rscript -e "testthat::test_local(stop_on_warning = TRUE)"
 
-test-shinytest: install
+test-installed: install
 	Rscript -e \
-		"withr::local_envvar(SHINYTEST = 'true'); testthat::test_local(stop_on_warning = TRUE, load_package = 'installed')"
+		"testthat::test_local(stop_on_warning = TRUE, load_package = 'installed')"
 
 install: roxygenise
 	Rscript \
