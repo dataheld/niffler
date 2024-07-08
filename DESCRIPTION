@@ -40,4 +40,3 @@ Remotes:
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/Needs/website: rmarkdown
-RoxygenNote: 7.3.2
