@@ -22,6 +22,8 @@
 #' Additional arguments passed to `module_server`and `module_ui`.
 #' `server_args` can be [shiny::reactive()]s,
 #' if corresponding argument in `module_server` accepts it.
+#' @example inst/examples/module2app/simple/no-funs.R
+#' @example inst/examples/module2app/simple/only-ui.R
 #' @inheritParams shiny::shinyApp
 #' @inheritDotParams shiny::shinyApp
 #' @export
@@ -130,4 +132,53 @@ no_fun_provided_glue <- function(x) glue::glue("No {x} function provided.")
 
 exec_tree_of_reacs <- function(.x) {
   purrr::modify_tree(.x, leaf = rlang::exec)
+}
+
+# test module =====
+
+# taken from shiny docs https://shiny.posit.co/r/articles/improve/modules/
+
+#' Counter Button
+#' @keywords internal
+#' @name counter_button
+NULL
+
+#' @describeIn counter_button Test app
+#' @inheritDotParams module2app
+counter_button_app <- function(...) {
+  module2app(
+    module_ui = counter_button_ui,
+    module_server = counter_button_server,
+    ...
+  )
+}
+
+#' @describeIn counter_button Module UI
+#' @inheritParams shiny::NS
+#' @inheritParams shiny::actionButton
+#' @export
+counter_button_ui <- function(id, label = "Counter") {
+  ns <- shiny::NS(id)
+  shiny::tagList(
+    shiny::actionButton(ns("button"), label = label),
+    shiny::verbatimTextOutput(ns("out"))
+  )
+}
+
+#' @describeIn counter_button Module Server
+#' @export
+counter_button_server <- function(id) {
+  shiny::moduleServer(
+    id,
+    function(input, output, session) {
+      count <- shiny::reactiveVal(0)
+      shiny::observeEvent(input$button, {
+        count(count() + 1)
+      })
+      output$out <- shiny::renderText({
+        count()
+      })
+      count
+    }
+  )
 }
