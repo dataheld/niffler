@@ -39,3 +39,29 @@ test_that("works with both inputs", {
   driver$click(selector = "#test_object-button")
   expect_equal(driver$get_value(output = "res"), capture.output(print(1)))
 })
+test_that("works with arguments to ui and server", {
+  increment_by <- shiny::reactiveVal(4L)
+  shiny::testServer(
+    app = module2app_server(
+      module_server = counter_button_server,
+      server_args = list(set_to = 10, increment_by = increment_by)
+    ),
+    expr = {
+      expect_equal(res(), 10)
+      session$setInputs(`test_object-button` = 1)
+      expect_equal(res(), 14)
+      # changing reactive input here
+      increment_by(1L)
+      session$setInputs(`test_object-button` = 2)
+      expect_equal(res(), 15)
+    }
+  )
+  skip_if_load_all2()
+  driver <- shinytest2::AppDriver$new(
+    source_pef("module2app", "simple", "args")
+  )
+  withr::defer(driver$stop())
+  expect_equal(driver$get_value(output = "res"), capture.output(print(100)))
+  driver$click(selector = "#test_object-button")
+  expect_equal(driver$get_value(output = "res"), capture.output(print(102)))
+})

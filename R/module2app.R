@@ -70,7 +70,7 @@ module2app_server <- function(module_server = NULL, server_args = list()) {
   module_server <- purrr::partial(module_server, !!!server_args)
   function(input, output, session) {
     output$server_args_react <- shiny::renderPrint(
-      filter_react_els(server_args)
+      exec_tree_of_reacs(filter_react_els(server_args))
     )
     res <- notify_non_reactive_returns(module_server(id = "test_object"))
     if (shiny::is.reactive(res)) {
@@ -129,10 +129,14 @@ no_fun_provided_server <- function(id, x = "server") {
 no_fun_provided_glue <- function(x) glue::glue("No {x} function provided.")
 
 exec_tree_of_reacs <- function(.x) {
-  purrr::modify_tree(.x, leaf = rlang::exec)
+  purrr::modify_tree(
+    .x,
+    is_node = function(x) !(shiny::is.reactive(x)),
+    leaf = rlang::exec
+  )
 }
 
-# test module =====
+# test modules =====
 
 # taken from shiny docs https://shiny.posit.co/r/articles/improve/modules/
 
@@ -164,14 +168,22 @@ counter_button_ui <- function(id, label = "Counter") {
 }
 
 #' @describeIn counter_button Module Server
+#' @param set_to
+#' A reactive, giving the value to set the counter to.
+#' @param increment_by
+#' Increment of the count.
 #' @export
-counter_button_server <- function(id) {
+counter_button_server <- function(id,
+                                  set_to = 0L,
+                                  increment_by = shiny::reactiveVal(1L)) {
+  abort_if_reactive(set_to)
+  abort_if_not_reactive(increment_by)
   shiny::moduleServer(
     id,
     function(input, output, session) {
-      count <- shiny::reactiveVal(0)
+      count <- shiny::reactiveVal(set_to)
       shiny::observeEvent(input$button, {
-        count(count() + 1)
+        count(count() + increment_by())
       })
       output$out <- shiny::renderText({
         count()
