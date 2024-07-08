@@ -65,3 +65,16 @@ test_that("works with arguments to ui and server", {
   driver$click(selector = "#test_object-button")
   expect_equal(driver$get_value(output = "res"), capture.output(print(102)))
 })
+test_that("works with nested modules", {
+  shiny::testServer(
+    module2app_server(x_counter_button_server),
+    expr = {
+      expect_equal(res(), 2)
+      session$setInputs(`test_object-set_count-button` = 1)
+      expect_equal(res(), 3)
+      session$setInputs(`test_object-set_increment-button` = 1)
+      session$setInputs(`test_object-set_count-button` = 1)
+      expect_equal(res(), 5)
+    }
+  )
+})

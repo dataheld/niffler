@@ -141,6 +141,8 @@ exec_tree_of_reacs <- function(.x) {
 # taken from shiny docs https://shiny.posit.co/r/articles/improve/modules/
 
 #' Counter Button
+#'
+#' Example of a simple module.
 #' @keywords internal
 #' @name counter_button
 NULL
@@ -169,9 +171,9 @@ counter_button_ui <- function(id, label = "Counter") {
 
 #' @describeIn counter_button Module Server
 #' @param set_to
-#' A reactive, giving the value to set the counter to.
+#' Giving the value to set the counter to.
 #' @param increment_by
-#' Increment of the count.
+#' A reactive, giving the value to increment the counter by.
 #' @export
 counter_button_server <- function(id,
                                   set_to = 0L,
@@ -188,7 +190,65 @@ counter_button_server <- function(id,
       output$out <- shiny::renderText({
         count()
       })
-      count
+      shiny::reactive(count())
+    }
+  )
+}
+
+#' Counter Button with Arbitrary Increments
+#'
+#' Example of a nested module.
+#' @keywords internal
+#' @name x_counter_button
+NULL
+
+#' @describeIn x_counter_button Test app
+#' @inheritDotParams module2app
+x_counter_button_app <- function(...) {
+  module2app(
+    module_ui = x_counter_button_ui,
+    module_server = x_counter_button_server,
+    ...
+  )
+}
+
+#' @describeIn x_counter_button Module UI
+#' @inheritParams shiny::NS
+#' @export
+x_counter_button_ui <- function(id) {
+  ns <- shiny::NS(id)
+  shiny::tagList(
+    shiny::wellPanel(
+      shiny::h3("Outer Module", shiny::code("x_counter_button")),
+      shiny::wellPanel(
+        shiny::h4("Inner Module 1", shiny::code("counter_button")),
+        counter_button_ui(
+          id = ns("set_increment"),
+          label = "Set Count Increment"
+        ),
+      ),
+      shiny::wellPanel(
+        shiny::h4("Inner Module 2", shiny::code("counter_button")),
+        counter_button_ui(id = ns("set_count"))
+      )
+    )
+  )
+}
+
+#' @describeIn x_counter_button Module Server
+#' @inheritParams counter_button_server
+#' @export
+x_counter_button_server <- function(id, set_to = 2L) {
+  abort_if_reactive(set_to)
+  shiny::moduleServer(
+    id,
+    function(input, output, session) {
+      increment_by <- counter_button_server(id = "set_increment", set_to = 1L)
+      counter_button_server(
+        id = "set_count",
+        set_to = set_to,
+        increment_by = increment_by
+      )
     }
   )
 }
