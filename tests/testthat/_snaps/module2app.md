@@ -8,7 +8,7 @@
           <code>module2app</code>
           Testbed
         </h1>
-        <h2>Server Arguments</h2>
+        <h2>Server Input Arguments</h2>
         <h3>Unevaluated</h3>
         <pre class="shiny-text-output noplaceholder" id="inputs-unev"></pre>
         <h3>Evaluated</h3>
@@ -34,7 +34,7 @@
           <code>module2app</code>
           Testbed
         </h1>
-        <h2>Server Arguments</h2>
+        <h2>Server Input Arguments</h2>
         <h3>Unevaluated</h3>
         <pre class="shiny-text-output noplaceholder" id="inputs-unev"></pre>
         <h3>Evaluated</h3>
