@@ -100,3 +100,12 @@ test_that("works with nested modules and deep returns", {
   # changing increment does not work in test,
   # probably because of needed sleep or something
 })
+test_that("works with bs5", {
+  expect_snapshot(
+    # navbar is not a good example, because it has random tab ids
+    module2app_ui(
+      module_ui = counter_button_ui,
+      ui_wrapper = source_pef("module2app", "ui", "bootstrap")
+    )
+  )
+})

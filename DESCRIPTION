@@ -33,6 +33,7 @@ Imports:
     shiny,
     testthat
 Suggests: 
+    bslib,
     elf,
     shinytest2
 Remotes:

@@ -32,10 +32,11 @@ module2app <- function(module_ui = NULL,
                        module_server = NULL,
                        ui_args = list(),
                        server_args = list(),
+                       ui_wrapper = shiny::basicPage,
                        options = list(test.mode = TRUE),
                        ...) {
   shiny::shinyApp(
-    ui = module2app_ui(module_ui, ui_args),
+    ui = module2app_ui(module_ui, ui_args, ui_wrapper = ui_wrapper),
     server = module2app_server(module_server, server_args),
     options = options,
     ...
@@ -47,6 +48,10 @@ module2app <- function(module_ui = NULL,
 #' A function to wrap the resulting [shiny::tagList()] in.
 #' Must yield a full shiny UI,
 #' such as [shiny::basicPage()] or [shiny::bootstrapPage()].
+#' For maximum reusability of a module,
+#' avoid depending on the wrapper and only return "vanilla" UI.
+#' @example inst/examples/module2app/ui/navbar.R
+#' @example inst/examples/module2app/ui/bootstrap.R
 #' @export
 module2app_ui <- function(module_ui = NULL,
                           ui_args = list(),
