@@ -43,8 +43,14 @@ module2app <- function(module_ui = NULL,
 }
 
 #' @describeIn module2app UI
+#' @param ui_wrapper
+#' A function to wrap the resulting [shiny::tagList()] in.
+#' Must yield a full shiny UI,
+#' such as [shiny::basicPage()] or [shiny::bootstrapPage()].
 #' @export
-module2app_ui <- function(module_ui = NULL, ui_args = list()) {
+module2app_ui <- function(module_ui = NULL,
+                          ui_args = list(),
+                          ui_wrapper = shiny::basicPage) {
   checkmate::assert_function(module_ui, args = c("id"), null.ok = TRUE)
   if (is.null(module_ui)) module_ui <- no_fun_provided_ui
   checkmate::assert_list(ui_args)
@@ -58,10 +64,6 @@ module2app_ui <- function(module_ui = NULL, ui_args = list()) {
     shiny::h2("Server Return Values"),
     mixed_react_tree_ui("returns")
   )
-}
-
-ui_wrapper <- function(...) {
-  shiny::basicPage(...)
 }
 
 #' @describeIn module2app Server
