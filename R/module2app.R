@@ -16,6 +16,8 @@
 #' Hadley Wickhams Mastering Shiny as a section on
 #' [testing modules](https://mastering-shiny.org/scaling-testing.html#modules).
 #'
+#' See [mixed_react_tree()] for details on the shown input and return values.
+#'
 #' @param module_ui,module_server
 #' Module functions.
 #' @param ui_args,server_args
@@ -24,6 +26,7 @@
 #' if corresponding argument in `module_server` accepts it.
 #' @inheritParams shiny::shinyApp
 #' @inheritDotParams shiny::shinyApp
+#' @keywords module helper
 #' @export
 module2app <- function(module_ui = NULL,
                        module_server = NULL,
@@ -48,12 +51,12 @@ module2app_ui <- function(module_ui = NULL, ui_args = list()) {
   module_ui <- purrr::partial(module_ui, !!!ui_args)
   ui_wrapper(
     shiny::h1(shiny::code("module2app"), "Testbed"),
-    shiny::h2("Reactive Server Arguments"),
-    shiny::verbatimTextOutput("server_args_react"),
+    shiny::h2("Server Input Arguments"),
+    mixed_react_tree_ui("inputs"),
     shiny::h2("Module UI"),
     module_ui(id = "test_object"),
-    shiny::h2("Reactive Server Return Values"),
-    shiny::verbatimTextOutput("res")
+    shiny::h2("Server Return Values"),
+    mixed_react_tree_ui("returns")
   )
 }
 
@@ -69,36 +72,22 @@ module2app_server <- function(module_server = NULL, server_args = list()) {
   checkmate::assert_list(server_args)
   module_server <- purrr::partial(module_server, !!!server_args)
   function(input, output, session) {
-    output$server_args_react <- shiny::renderPrint(
-      exec_tree_of_reacs(filter_react_els(server_args))
-    )
-    res <- notify_non_reactive_returns(module_server(id = "test_object"))
-    if (shiny::is.reactive(res)) {
-      shiny::exportTestValues(res = res())
-      output$res <- shiny::renderPrint(exec_tree_of_reacs(res))
-    } else {
-      shiny::exportTestValues(res = res)
-    }
+    mixed_react_tree_server(id = "inputs", tree = server_args)
+    res <- module_server(id = "test_object")
+    shiny::exportTestValues(res = fix_test_returns(res))
+    mixed_react_tree_server(id = "returns", tree = res)
+    res
   }
 }
 
-notify_non_reactive_returns <- function(x) {
-  if (!shiny::is.reactive(x)) {
-    shiny::showNotification(
-      shiny::tags$h5("Module server had a non-reactive return value."),
-      shiny::p(
-        "Non-reactive return values are allowed, but are not shown here."
-      ),
-      duration = NULL,
-      type = "message"
-    )
-    shiny::reactive(NULL)
+#' Need to protect against non-reactive values
+#' @noRd
+fix_test_returns <- function(x) {
+  if (shiny::is.reactive(x)) {
+    x()
+  } else {
+    x
   }
-  x
-}
-
-filter_react_els <- function(x = list()) {
-  x[purrr::map_lgl(x, shiny::is.reactive)]
 }
 
 no_fun_provided_ui <- function(id, x = "ui") {
@@ -116,7 +105,7 @@ no_fun_provided_server <- function(id, x = "server") {
     id = id,
     module = function(input, output, session) {
       shiny::showNotification(
-        shiny::tags$h5(no_fun_provided_glue(x)),
+        no_fun_provided_glue(x),
         duration = NULL,
         id = id
       )
@@ -128,12 +117,95 @@ no_fun_provided_server <- function(id, x = "server") {
 
 no_fun_provided_glue <- function(x) glue::glue("No {x} function provided.")
 
-exec_tree_of_reacs <- function(.x) {
-  purrr::modify_tree(
-    .x,
-    is_node = function(x) !(shiny::is.reactive(x)),
-    leaf = rlang::exec
+# mixed reactive tree ====
+
+#' Show Tree of Mixed Reactive Values
+#'
+#' To evaluate the (reactive) values,
+#' the function walks down the tree of return values
+#' and `rlang::exec()`s all the `shiny::is.reactive()`s it can find,
+#' going until it hits a non-list (`is.list()`) that is also *not* a reactive.
+#'
+#' @section Changes to the Reactive Graph:
+#' Note that because this module prints *all* returned reactives from the
+#' tree to the UI,
+#' the reactive graph will be deeply affected.
+#' For example,
+#' these reactives might be invalidated at a different time in your use
+#' of your modules outside of this testbed.
+#'
+#' @details
+#' In the simplest case,
+#' modules accept or return a single reactive- or non-reactive value.
+#' Non-reactive returns are uncommon, but allowed.
+#' In a more complex case, modules can accept or return deeply nested
+#' lists of reactives and non-reactives,
+#' including non-reactives which contain reactives.
+#' For example, consider a module to input the contact details of an arbitrary
+#' number of people, say, a travel group.
+#'
+#' To quickly grasp what *your* module accepts and returns,
+#' this module prints both the "raw", unevaluated tree
+#' and a version of the tree with all leaves evaluated.
+#' @keywords module helpers
+#' @name mixed_react_tree
+NULL
+
+#' @describeIn mixed_react_tree Test app
+#' @inheritDotParams module2app
+#' @export
+mixed_react_tree_app <- function(...) {
+  module2app(mixed_react_tree_ui, mixed_react_tree_server, ...)
+}
+
+#' @describeIn mixed_react_tree Module UI
+#' @inheritParams shiny::NS
+#' @inheritParams shiny::actionButton
+#' @export
+mixed_react_tree_ui <- function(id) {
+  ns <- shiny::NS(id)
+  shiny::tagList(
+    shiny::h3("Unevaluated"),
+    shiny::verbatimTextOutput(ns("unev")),
+    shiny::h3("Evaluated"),
+    shiny::verbatimTextOutput(ns("eval"))
   )
+}
+
+#' @describeIn mixed_react_tree Module Server
+#' @param tree
+#' A reactive- or non-reactive value,
+#' typically a deeply nested list of reactives and non-reactive values,
+#' as passed around between modules.
+#' @export
+mixed_react_tree_server <- function(id, tree = shiny::reactive(NULL)) {
+  shiny::moduleServer(
+    id = id,
+    function(input, output, session) {
+      output$unev <- shiny::renderPrint(tree)
+      output$eval <- shiny::renderPrint(exec_tree_of_reacs(tree))
+      tree
+    }
+  )
+}
+
+exec_tree_of_reacs <- function(x) {
+  purrr::modify_tree(
+    x,
+    is_node = is_list_or_reactive,
+    pre = exec_if_reactive
+  )
+}
+
+is_list_or_reactive <- function(x) {
+  is.list(x) || shiny::is.reactive(x)
+}
+
+exec_if_reactive <- function(x) {
+  if (shiny::is.reactive(x)) {
+    x <- rlang::exec(x)
+  }
+  x
 }
 
 # test modules =====
@@ -149,6 +221,7 @@ NULL
 
 #' @describeIn counter_button Test app
 #' @inheritDotParams module2app
+#' @export
 counter_button_app <- function(...) {
   module2app(
     module_ui = counter_button_ui,
@@ -204,6 +277,7 @@ NULL
 
 #' @describeIn x_counter_button Test app
 #' @inheritDotParams module2app
+#' @export
 x_counter_button_app <- function(...) {
   module2app(
     module_ui = x_counter_button_ui,
@@ -237,18 +311,33 @@ x_counter_button_ui <- function(id) {
 
 #' @describeIn x_counter_button Module Server
 #' @inheritParams counter_button_server
+#' @param deep
+#' Whether or not to return the inner module's reactive values.
+#' Only useful for testing, does not make much sense in this context.
 #' @export
-x_counter_button_server <- function(id, set_to = 2L) {
+x_counter_button_server <- function(id, set_to = 2L, deep = FALSE) {
   abort_if_reactive(set_to)
   shiny::moduleServer(
     id,
     function(input, output, session) {
       increment_by <- counter_button_server(id = "set_increment", set_to = 1L)
-      counter_button_server(
+      count_by <- counter_button_server(
         id = "set_count",
         set_to = set_to,
         increment_by = increment_by
       )
+      if (deep) {
+        list(
+          increment_by = shiny::reactive(increment_by()),
+          count_by = shiny::reactive(count_by()),
+          a_non_reactive_return = "just for testing",
+          deeper_copy_of_increment_by = shiny::reactive(
+            list(increment_by = shiny::reactive(increment_by()))
+          )
+        )
+      } else {
+        shiny::reactive(count_by())
+      }
     }
   )
 }

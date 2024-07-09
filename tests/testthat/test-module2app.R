@@ -35,9 +35,15 @@ test_that("works with both inputs", {
     source_pef("module2app", "simple", "both-funs")
   )
   withr::defer(driver$stop())
-  expect_equal(driver$get_value(output = "res"), capture.output(print(0)))
+  expect_equal(
+    driver$get_value(output = "returns-eval"),
+    capture.output(print(0))
+  )
   driver$click(selector = "#test_object-button")
-  expect_equal(driver$get_value(output = "res"), capture.output(print(1)))
+  expect_equal(
+    driver$get_value(output = "returns-eval"),
+    capture.output(print(1))
+  )
 })
 test_that("works with arguments to ui and server", {
   increment_by <- shiny::reactiveVal(4L)
@@ -61,11 +67,17 @@ test_that("works with arguments to ui and server", {
     source_pef("module2app", "simple", "args")
   )
   withr::defer(driver$stop())
-  expect_equal(driver$get_value(output = "res"), capture.output(print(100)))
+  expect_equal(
+    driver$get_value(output = "returns-eval"),
+    capture.output(print(100))
+  )
   driver$click(selector = "#test_object-button")
-  expect_equal(driver$get_value(output = "res"), capture.output(print(102)))
+  expect_equal(
+    driver$get_value(output = "returns-eval"),
+    capture.output(print(102))
+  )
 })
-test_that("works with nested modules", {
+test_that("works with nested modules and flat returns", {
   shiny::testServer(
     module2app_server(x_counter_button_server),
     expr = {
@@ -77,4 +89,14 @@ test_that("works with nested modules", {
       expect_equal(res(), 5)
     }
   )
+})
+test_that("works with nested modules and deep returns", {
+  skip_if_load_all2()
+  driver <- shinytest2::AppDriver$new(
+    source_pef("module2app", "nested", "deep")
+  )
+  withr::defer(driver$stop())
+  driver$expect_text("#returns-eval")
+  # changing increment does not work in test,
+  # probably because of needed sleep or something
 })
