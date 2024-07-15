@@ -1,1 +1,4 @@
-source_pef <- purrr::partial(elf::source_pef, package = "niffler")
+source_pef <- function(...) {
+  rlang::check_installed("elf")
+  elf::source_pef(..., package = "niffler")
+}

@@ -25,7 +25,6 @@ LazyData: true
 Language: en
 Roxygen: list(markdown = TRUE)
 Imports:
-    elf,
     checkmate,
     glue,
     pkgload,
@@ -34,6 +33,7 @@ Imports:
     shiny,
     testthat
 Suggests: 
+    elf,
     bslib,
     shinytest2
 Remotes:
@@ -41,4 +41,3 @@ Remotes:
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/Needs/website: rmarkdown
-RoxygenNote: 7.3.2
