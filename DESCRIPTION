@@ -35,6 +35,7 @@ Imports:
 Suggests: 
     elf,
     bslib,
+    roxygen2,
     shinytest2
 Remotes:
     dataheld/elf
