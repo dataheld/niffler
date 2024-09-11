@@ -33,10 +33,14 @@ Imports:
     shiny,
     testthat
 Suggests: 
-    elf,
     bslib,
+    brio,
+    elf,
+    fs,
     roxygen2,
-    shinytest2
+    shinytest2,
+    showimage,
+    withr
 Remotes:
     dataheld/elf
 Config/testthat/edition: 3
