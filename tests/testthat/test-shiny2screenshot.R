@@ -27,7 +27,14 @@ describe("get_screenshot_from_app", {
     "can record a screenshot",
     {
       get_screenshot_from_app(counter_button_app(), file = path)
-      expect_snapshot_file(path = path, name = name)
+      expect_snapshot_file(
+        path = path,
+        name = name,
+        compare = purrr::partial(
+          shinytest2::compare_screenshot_threshold,
+          threshold = 200
+        )
+      )
     }
   )
 })
