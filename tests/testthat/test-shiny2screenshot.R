@@ -32,7 +32,7 @@ describe("get_screenshot_from_app", {
         name = name,
         compare = purrr::partial(
           shinytest2::compare_screenshot_threshold,
-          threshold = 99
+          threshold = 3
         )
       )
     }
