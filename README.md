@@ -11,8 +11,9 @@ but a lightweight time- and line-saver.
 
 It can help with:
 
-- modules
-- testing
+- 📦 modules
+- 🧪 testing
+- 📖 documentation
 - ... and more
 
 
