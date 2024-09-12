@@ -39,6 +39,7 @@ Suggests:
     roxygen2,
     shinytest2,
     showimage,
+    testthat,
     withr
 Remotes:
     dataheld/elf
