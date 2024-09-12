@@ -118,8 +118,8 @@ get_screenshot_from_app <- function(appDir,
       f_screenshot,
       otherwise = {
         message(
-        "The screenshot could not be generated. ",
-        "Please check the logs for errors."
+          "The screenshot could not be generated. ",
+          "Please check the logs for errors."
         )
         invisible(NULL)
       },
