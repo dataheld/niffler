@@ -30,10 +30,7 @@ describe("get_screenshot_from_app", {
       expect_snapshot_file(
         path = path,
         name = name,
-        compare = purrr::partial(
-          shinytest2::compare_screenshot_threshold,
-          threshold = 3
-        )
+        variant = shinytest2::platform_variant(r_version = FALSE)
       )
     }
   )
