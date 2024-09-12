@@ -37,7 +37,6 @@ roxy_tag_parse.roxy_tag_nifflerExamplesShiny <- function(x) {
 
 #' @exportS3Method roxygen2::roxy_tag_rd
 roxy_tag_rd.roxy_tag_nifflerExamplesShiny <- function(x, base_path, env) {
-  # TODO assert that x is a shiny app, etc.
   call <- x[["val"]]
   x[["val"]] <- paste(
     "\\dontshow{",
@@ -105,12 +104,29 @@ check_installed_shinytest2 <- function() {
 #' @export
 get_screenshot_from_app <- function(appDir,
                                     name = character(1L),
-                                    strict = FALSE,
-                                    file = NULL) {
+                                    file = NULL,
+                                    strict = FALSE) {
   checkmate::assert_flag(strict)
-  # TODO https://github.com/dataheld/niffler/issues/16
-  # capture any problems as warnings
-  get_screenshot_from_app_strictly(appDir, name = name, file = file)
+  f_screenshot <- purrr::partial(
+    get_screenshot_from_app_strictly,
+    appDir,
+    name = name,
+    file = file
+  )
+  if (!strict) {
+    f_screenshot <- purrr::possibly(
+      f_screenshot,
+      otherwise = {
+        message(
+        "The screenshot could not be generated. ",
+        "Please check the logs for errors."
+        )
+        invisible(NULL)
+      },
+      quiet = FALSE
+    )
+  }
+  f_screenshot()
 }
 
 get_screenshot_from_app_strictly <- function(appDir, name, file) {

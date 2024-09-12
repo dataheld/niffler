@@ -35,3 +35,8 @@ describe("get_screenshot_from_app", {
     }
   )
 })
+
+test_that("screenshots fail according to `strict` setting", {
+  expect_message(get_screenshot_from_app("does_not_exist"))
+  expect_error(get_screenshot_from_app("does_not_exist", strict = TRUE))
+})
