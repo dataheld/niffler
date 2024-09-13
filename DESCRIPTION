@@ -1,7 +1,7 @@
 Package: niffler
 Title: Shiny development helpers
 Version: 0.0.0.9000
-Authors@R: 
+Authors@R:
     c(
       person(
         given = "Maximilian",
@@ -15,7 +15,7 @@ Authors@R:
         role = c("cph", "fnd")
       )
     )
-Description: 
+Description:
     Helpers for shiny development.
 URL: https://github.com/dataheld/niffler
 BugReports: https://github.com/dataheld/niffler/issues
@@ -27,15 +27,19 @@ Roxygen: list(markdown = TRUE)
 Imports:
     checkmate,
     glue,
-    pkgload,
     purrr,
     rlang,
     shiny,
-    testthat
-Suggests: 
-    elf,
+Suggests:
     bslib,
-    shinytest2
+    brio,
+    elf,
+    fs,
+    roxygen2,
+    shinytest2,
+    showimage,
+    testthat,
+    withr
 Remotes:
     dataheld/elf
 Config/testthat/edition: 3

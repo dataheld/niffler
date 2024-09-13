@@ -16,7 +16,7 @@ include .env
 
 all: all-outside-docker all-in-docker
 
-all-outside-docker: superlint bake 
+all-outside-docker: superlint bake
 	make bake
 	make smoke-tests
 	make health-checks
@@ -33,7 +33,7 @@ bake:
 			--file .env \
 			$(bake_args)
 
-# when the list of buildtime dep pkgs changes, 
+# when the list of buildtime dep pkgs changes,
 # apt-get update needs to run again,
 # to ensure that apt-get install emitted by pak work
 sysdeps: DESCRIPTION
@@ -80,6 +80,9 @@ test: roxygenise
 test-installed: install
 	Rscript -e \
 		"testthat::test_local(stop_on_warning = TRUE, load_package = 'installed')"
+
+test-installed-docker: bake
+	docker run -it -v .:/root/source ghcr.io/dataheld/niffler/builder:latest make test-installed
 
 install: roxygenise
 	Rscript \
@@ -130,7 +133,7 @@ bake-devcontainer: bake-developer bake-rstudio
 # https://docs.github.com/en/codespaces/prebuilding-your-codespaces/managing-prebuilds#allowing-a-prebuild-to-access-external-resources
 # w/o prebuilds, building takes too long, so we pull from GHCR instead
 # this should be removed when GHCR prebuild access works
-# there is no canonical way to know whether code is 
+# there is no canonical way to know whether code is
 # running inside the GHA worker for image creation
 # GITHUB_ACTIONS etc. are not defined
 # I found this env var by running printenv
@@ -184,7 +187,7 @@ lint: actionlint dockerlint dotenv-lint eslint gitleaks jscpd markdownlint \
 actionlint:
 	actionlint
 
-dockerlint: 
+dockerlint:
 	hadolint Dockerfile
 
 dotenv-lint:

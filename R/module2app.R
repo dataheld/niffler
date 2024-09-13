@@ -18,6 +18,11 @@
 #'
 #' See [mixed_react_tree()] for details on the shown input and return values.
 #'
+#' If you are testing screenshots,
+#' you are recommended to use [get_screenshot_args_attr()]
+#' to screenshot only your actual module UI,
+#' without the surrounding *niffler* boilerplate.
+#'
 #' @param module_ui,module_server
 #' Module functions.
 #' @param ui_args,server_args
@@ -35,12 +40,21 @@ module2app <- function(module_ui = NULL,
                        ui_wrapper = shiny::basicPage,
                        options = list(test.mode = TRUE),
                        ...) {
-  shiny::shinyApp(
+  res <- shiny::shinyApp(
     ui = module2app_ui(module_ui, ui_args, ui_wrapper = ui_wrapper),
     server = module2app_server(module_server, server_args),
     options = options,
     ...
   )
+  attributes(res) <- c(
+    attributes(res),
+    list(
+      niffler_screenshot_args = list(
+        selector = paste0("#", inner_module_id)
+      )
+    )
+  )
+  res
 }
 
 #' @describeIn module2app UI
@@ -65,11 +79,16 @@ module2app_ui <- function(module_ui = NULL,
     shiny::h2("Server Input Arguments"),
     mixed_react_tree_ui("inputs"),
     shiny::h2("Module UI"),
-    module_ui(id = "test_object"),
+    shiny::div(
+      module_ui(id = "test_object"),
+      id = inner_module_id
+    ),
     shiny::h2("Server Return Values"),
     mixed_react_tree_ui("returns")
   )
 }
+
+inner_module_id <- "niffler-module2app-module-ui"
 
 #' @describeIn module2app Server
 #' @export
@@ -347,4 +366,44 @@ x_counter_button_server <- function(id, set_to = 2L, deep = FALSE) {
       }
     }
   )
+}
+
+# ==== helpers
+
+#' Retrieve `niffler_screenshot_args` attribute with screenshot settings
+#'
+#' An app may require special settings for a good screenshot.
+#' For example, you would usually only be interested in the Module UI
+#' part of apps created by [module2app()].
+#' [module2app()] supports this by setting the correct DOM selector
+#' and exposing it via the `niffler_screenshot_args`.
+#'
+#' @details
+#' The `niffler_screenshot_args` attribute can be set on whatever
+#' object you pass to `appDir`.
+#' It should be a list passable to the `screenshot_args` argument
+#' of [`shinytest2::AppDriver`]'s `$new()` method.
+#' You *can* set all sorts of screenshot behavior that way,
+#' but same of these settings may break functionality in niffler.
+#' It is known to work for DOM selection.
+#' @return
+#' A list for the `screenshot_args` argument
+#' of [`shinytest2::AppDriver`]'s `$new()` method.
+#' If no attribute is found,
+#' returns [rlang::missing_arg()], to keep shinytest2
+#' defaults intact.
+#' @inheritParams shiny::runApp
+#' @keywords module helpers
+#' @keywords screenshot helpers
+get_screenshot_args_attr <- function(appDir) {
+  if (has_niffler_attrs(appDir)) {
+    res <- attr(appDir, which = "niffler_screenshot_args")
+    res <- checkmate::assert_list(res)
+  } else {
+    return(rlang::missing_arg())
+  }
+}
+
+has_niffler_attrs <- function(appDir) {
+  "niffler_screenshot_args" %in% names(attributes(appDir))
 }

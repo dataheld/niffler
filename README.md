@@ -1,7 +1,7 @@
 # niffler
 
 > "Long-snouted, burrowing creatures native to Britain with a penchant for anything shiny."
-> -— [Pottermore](https://harrypotter.fandom.com/wiki/Niffler)
+> — [Pottermore](https://harrypotter.fandom.com/wiki/Niffler)
 
 ## Overview
 
@@ -11,8 +11,9 @@ but a lightweight time- and line-saver.
 
 It can help with:
 
-- modules
-- testing
+- 📦 modules
+- 🧪 testing
+- 📖 documentation
 - ... and more
 
 
