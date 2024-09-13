@@ -51,7 +51,8 @@ module2app <- function(module_ui = NULL,
     list(
       niffler_screenshot_args = list(
         selector = paste0("#", inner_module_id)
-    ))
+      )
+    )
   )
   res
 }
@@ -380,7 +381,8 @@ x_counter_button_server <- function(id, set_to = 2L, deep = FALSE) {
 #' @details
 #' The `niffler_screenshot_args` attribute can be set on whatever
 #' object you pass to `appDir`.
-#' It should be a list passable to the `screenshot_args` argument of [`shinytest2::AppDriver`]'s `$new()` method.
+#' It should be a list passable to the `screenshot_args` argument
+#' of [`shinytest2::AppDriver`]'s `$new()` method.
 #' You *can* set all sorts of screenshot behavior that way,
 #' but same of these settings may break functionality in niffler.
 #' It is known to work for DOM selection.
