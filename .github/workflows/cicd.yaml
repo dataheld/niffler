@@ -93,6 +93,12 @@ jobs:
         run: |
           apt-get update
           make ${{ matrix.make_target }}
+      - name: Upload Pkgdown Website as an Artifact
+        if: ${{ matrix.make_target == 'pkgdown' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: "pkgdown website"
+          path: "docs/"
   lint-all:
     name: Lint Code Base (Except R)
     runs-on: ubuntu-latest
@@ -100,7 +106,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          # Full git history is needed to get a proper list of 
+          # Full git history is needed to get a proper list of
           # changed files within `super-linter`
           fetch-depth: 0
       - name: Lint Code Base
@@ -116,3 +122,30 @@ jobs:
           VALIDATE_R: false
           VALIDATE_TERRAGRUNT: false
           VALIDATE_CHECKOV: false
+  publish:
+    name: "Publish pkgdown Website to Cloudflare"
+    permissions:
+      contents: read
+      deployments: write
+    needs: [
+      make-all-in-docker,
+      lint-all
+    ]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: "pkgdown website"
+          path: docs/
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN_PAGES }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID_HELDEN18DE }}
+          projectName: niffler
+          directory: docs/
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

@@ -10,7 +10,7 @@ source_pef <- function(...) {
 #' @nifflerExamplesShiny
 #' examples_app()
 #' @inheritParams shiny::runExample
-#' @keywords documentation tags
+#' @family documentation
 #' @export
 examples_app <- function(example = "01_hello") {
   # library calls and others make noise

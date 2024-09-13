@@ -1,6 +1,6 @@
 #' Helper to stop if input is or is not a reactive
 #' @inheritParams shiny::is.reactive
-#' @keywords module helpers
+#' @family modules
 #' @export
 abort_if_reactive <- function(x) {
   if (shiny::is.reactive(x)) {

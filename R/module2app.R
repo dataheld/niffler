@@ -31,7 +31,7 @@
 #' if corresponding argument in `module_server` accepts it.
 #' @inheritParams shiny::shinyApp
 #' @inheritDotParams shiny::shinyApp
-#' @keywords module helper
+#' @family modules
 #' @export
 module2app <- function(module_ui = NULL,
                        module_server = NULL,
@@ -173,7 +173,7 @@ no_fun_provided_glue <- function(x) glue::glue("No {x} function provided.")
 #' To quickly grasp what *your* module accepts and returns,
 #' this module prints both the "raw", unevaluated tree
 #' and a version of the tree with all leaves evaluated.
-#' @keywords module helpers
+#' @family modules
 #' @name mixed_react_tree
 NULL
 
@@ -393,8 +393,8 @@ x_counter_button_server <- function(id, set_to = 2L, deep = FALSE) {
 #' returns [rlang::missing_arg()], to keep shinytest2
 #' defaults intact.
 #' @inheritParams shiny::runApp
-#' @keywords module helpers
-#' @keywords screenshot helpers
+#' @family modules
+#' @family documentation
 get_screenshot_args_attr <- function(appDir) {
   if (has_niffler_attrs(appDir)) {
     res <- attr(appDir, which = "niffler_screenshot_args")
