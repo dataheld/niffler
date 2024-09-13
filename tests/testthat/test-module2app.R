@@ -109,3 +109,23 @@ test_that("works with bs5", {
     )
   )
 })
+correct_attr <- list(selector = paste0("#", inner_module_id))
+test_that("returns attribute with dom selector", {
+  expect_equal(
+    attr(module2app(counter_button_ui), "niffler_screenshot_args"),
+    correct_attr
+  )
+})
+test_that("screenshot args attribute can be retrieved", {
+  expect_equal(
+    get_screenshot_args_attr(module2app(counter_button_ui)),
+    correct_attr
+  )
+})
+test_that("app without niffler args returns missing arg", {
+  expect_equal(get_screenshot_args_attr(examples_app()), rlang::missing_arg())
+})
+test_that("absence and presence of niffler attrs can be found", {
+  expect_true(has_niffler_attrs(counter_button_app()))
+  expect_false(has_niffler_attrs(examples_app()))
+})

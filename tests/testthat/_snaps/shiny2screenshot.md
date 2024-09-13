@@ -28,12 +28,12 @@
       \dontshow{
       # automatically inserted screenshot
       get_screenshot_from_app(
-      counter_button_app()
+      hello_app()
       )
       }
       \dontrun{
       # launch the app
-      counter_button_app()
+      hello_app()
       }
       } 
 

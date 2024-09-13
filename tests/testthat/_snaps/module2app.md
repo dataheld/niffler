@@ -14,8 +14,10 @@
         <h3>Evaluated</h3>
         <pre class="shiny-text-output noplaceholder" id="inputs-eval"></pre>
         <h2>Module UI</h2>
-        <div class="bg-info">
-          <em>No ui function provided.</em>
+        <div id="niffler-module2app-module-ui">
+          <div class="bg-info">
+            <em>No ui function provided.</em>
+          </div>
         </div>
         <h2>Server Return Values</h2>
         <h3>Unevaluated</h3>
@@ -40,8 +42,10 @@
         <h3>Evaluated</h3>
         <pre class="shiny-text-output noplaceholder" id="inputs-eval"></pre>
         <h2>Module UI</h2>
-        <button id="test_object-button" type="button" class="btn btn-default action-button">Counter</button>
-        <pre class="shiny-text-output noplaceholder" id="test_object-out"></pre>
+        <div id="niffler-module2app-module-ui">
+          <button id="test_object-button" type="button" class="btn btn-default action-button">Counter</button>
+          <pre class="shiny-text-output noplaceholder" id="test_object-out"></pre>
+        </div>
         <h2>Server Return Values</h2>
         <h3>Unevaluated</h3>
         <pre class="shiny-text-output noplaceholder" id="returns-unev"></pre>
@@ -73,8 +77,10 @@
       <h3>Evaluated</h3>
       <pre class="shiny-text-output noplaceholder" id="inputs-eval"></pre>
       <h2>Module UI</h2>
-      <button id="test_object-button" type="button" class="btn btn-default action-button">Counter</button>
-      <pre class="shiny-text-output noplaceholder" id="test_object-out"></pre>
+      <div id="niffler-module2app-module-ui">
+        <button id="test_object-button" type="button" class="btn btn-default action-button">Counter</button>
+        <pre class="shiny-text-output noplaceholder" id="test_object-out"></pre>
+      </div>
       <h2>Server Return Values</h2>
       <h3>Unevaluated</h3>
       <pre class="shiny-text-output noplaceholder" id="returns-unev"></pre>
