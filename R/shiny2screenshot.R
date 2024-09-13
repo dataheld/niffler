@@ -117,11 +117,11 @@ get_screenshot_from_app <- function(appDir,
     f_screenshot <- purrr::possibly(
       f_screenshot,
       otherwise = {
-        message(
-          "The screenshot could not be generated. ",
-          "Please check the logs for errors."
+        glue::glue(
+          "The screenshot could not be generated.",
+          "Please check the logs for errors.",
+          sep = " "
         )
-        invisible(NULL)
       },
       quiet = FALSE
     )
@@ -131,9 +131,9 @@ get_screenshot_from_app <- function(appDir,
 
 get_screenshot_from_app_strictly <- function(appDir, name, file) {
   check_installed_shinytest2()
-  checkmate::assert_false(
-    pkgload::is_dev_package(name)
-  )
+  if (name != character(1L)) {
+    elf::assert_pkg_installed_but_not_via_loadall(x = name)
+  }
   driver <- shinytest2::AppDriver$new(
     app_dir = appDir
   )
