@@ -13,8 +13,9 @@ source_pef <- function(...) {
 #' @keywords documentation tags
 #' @export
 examples_app <- function(example = "01_hello") {
-  res <- source(
-    fs::path_package("shiny", "examples-shiny", example, "app.R")
+  # library calls and others make noise
+  res <- suppressMessages(
+    source(fs::path_package("shiny", "examples-shiny", example, "app.R"))
   )
   res$value
 }
