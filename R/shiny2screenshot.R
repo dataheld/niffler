@@ -9,7 +9,7 @@
 #' But for quick reference, a screenshot or gif of a shiny app
 #' are still helpful for the reader of your documentation.
 #'
-#' @keywords documentation tags
+#' @family documentation
 #'
 #' @name tag_shiny
 NULL
@@ -102,7 +102,7 @@ check_installed_shinytest2 <- function() {
 #' \dontrun{
 #' get_screenshot_from_app(examples_app())
 #' }
-#' @keywords documentation tags
+#' @family documentation
 #' @export
 get_screenshot_from_app <- function(appDir,
                                     screenshot_args =

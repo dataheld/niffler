@@ -1,7 +1,17 @@
 ---
+url: https://niffler.maxheld.de
 authors:
   Maximilian Held:
     href: http://www.maxheld.de
 template:
   bootstrap: 5
   bootswatch: cosmo
+reference:
+  - title: Documentation
+    desc: Nicer and easier documentation of shiny apps and modules.
+  - contents:
+      - has_concept("documentation")
+  - title: Modules
+    desc: Helpers around working with shiny modules.
+  - contents:
+      - has_concept("modules")
