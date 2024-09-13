@@ -27,7 +27,6 @@ Roxygen: list(markdown = TRUE)
 Imports:
     checkmate,
     glue,
-    pkgload,
     purrr,
     rlang,
     shiny,
