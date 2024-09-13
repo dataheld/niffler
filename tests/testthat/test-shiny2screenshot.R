@@ -39,6 +39,10 @@ describe("get_screenshot_from_app", {
 })
 
 test_that("screenshots fail according to `strict` setting", {
-  expect_snapshot(get_screenshot_from_app("does_not_exist"))
+  expect_snapshot(
+    # messages must be supressed,
+    # otherwise snapshot gets polluted with timestamps
+    suppressMessages(get_screenshot_from_app("does_not_exist"))
+  )
   expect_error(get_screenshot_from_app("does_not_exist", strict = TRUE))
 })

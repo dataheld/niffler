@@ -40,24 +40,7 @@
 # screenshots fail according to `strict` setting
 
     Code
-      get_screenshot_from_app("does_not_exist")
-    Message
-      Error: `app_dir` must be an existing directory
-      i Received: "does_not_exist"
-      
-      
-      i You can inspect the failed AppDriver object via `rlang::last_error()$app`
-      i AppDriver logs:
-      {shinytest2} R info 12:58:54.14 Start AppDriver initialization
-      {shinytest2} R info 12:58:54.14 Starting Shiny app
-      {shinytest2} R info 12:58:54.15 Error while initializing AppDriver:
-                                      `app_dir` must be an existing directory
-                                      i Received: "does_not_exist"
-      
-      
-      Caused by error in `app_set_dir()`:
-      ! `app_dir` must be an existing directory
-      i Received: "does_not_exist"
+      suppressMessages(get_screenshot_from_app("does_not_exist"))
     Output
       The screenshot could not be generated.Please check the logs for errors.
 
