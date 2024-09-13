@@ -17,7 +17,9 @@ describe("roxy_tag_nifflerExamplesShiny", {
     }
   )
 })
-
+# these should use boring counter_button_app, not examples_app,
+# because they're in this package and don't change
+# upstream change from shiny examples could break screenshots
 describe("get_screenshot_from_app", {
   name <- "counter.png"
   announce_snapshot_file(name = name)
