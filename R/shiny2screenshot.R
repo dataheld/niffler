@@ -98,7 +98,7 @@ check_installed_shinytest2 <- function() {
 #' Leave to `NULL`.
 #' @examples
 #' \dontrun{
-#' get_screenshot_from_app(counter_button_app())
+#' get_screenshot_from_app(examples_app())
 #' }
 #' @keywords documentation tags
 #' @export
