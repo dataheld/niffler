@@ -393,6 +393,7 @@ x_counter_button_server <- function(id, set_to = 2L, deep = FALSE) {
 #' returns [rlang::missing_arg()], to keep shinytest2
 #' defaults intact.
 #' @inheritParams shiny::runApp
+#' @export
 #' @family modules
 #' @family documentation
 get_screenshot_args_attr <- function(appDir) {
