@@ -393,12 +393,14 @@ x_counter_button_server <- function(id, set_to = 2L, deep = FALSE) {
 #' returns [rlang::missing_arg()], to keep shinytest2
 #' defaults intact.
 #' @inheritParams shiny::runApp
+#' @export
 #' @family modules
 #' @family documentation
 get_screenshot_args_attr <- function(appDir) {
   if (has_niffler_attrs(appDir)) {
     res <- attr(appDir, which = "niffler_screenshot_args")
-    res <- checkmate::assert_list(res)
+    checkmate::assert_list(res)
+    res
   } else {
     return(rlang::missing_arg())
   }
