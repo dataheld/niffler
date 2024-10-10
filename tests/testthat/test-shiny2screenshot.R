@@ -54,3 +54,15 @@ test_that("screenshots fail according to `strict` setting", {
     )
   )
 })
+
+describe("dir_ls_snaps", {
+  variant <- shinytest2::platform_variant(r_version = FALSE)
+  it("finds named snaps", {
+    snaps <- dir_ls_snaps(
+      test_file = "helpers",
+      name = "bins",
+      variant = variant
+    )
+    expect_snapshot(snaps, variant = variant)
+  })
+})

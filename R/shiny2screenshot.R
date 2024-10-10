@@ -149,3 +149,41 @@ get_screenshot_from_app_strictly <- function(appDir,
   withr::defer(driver$stop())
   driver$get_screenshot(file = file)
 }
+
+#' List all testthat `_snaps/` screenshots
+#'
+#' Finds all files for a variant, file and name.
+#'
+#' You can deposit several screenshots of a shiny app using
+#' [shinytest2::AppDriver] in testing.
+#' Use this function to identify all the resulting images.
+#' @param test_file
+#' Name of the test file, in which the snapshots are generated,
+#' *without*:
+#' - the extension
+#' - the `test-` prefix.
+#' If you're using testthat convention,
+#' this will be the name of the file in `R/`,
+#' which you are currently testing.
+#' @inheritParams shinytest2::AppDriver
+#' @inheritParams testthat::expect_snapshot_file
+#' @export
+dir_ls_snaps <- function(test_file = character(),
+                         name = NULL,
+                         variant = shinytest2::platform_variant()) {
+  test_path <- testthat::test_path(
+    "_snaps",
+    variant,
+    test_file
+  )
+  # shinytest2 docs have `NULL` as default, but glue does not like `NULL`s
+  if (is.null(name)) name <- character()
+  fs::dir_ls(
+    test_path,
+    all = FALSE,
+    recurse = FALSE,
+    type = "file",
+    # shinytest2 only defaults to png
+    regexp = glue::glue("^.*[\\\\/]{name}-\\d{{3}}\\.png$")
+  )
+}
