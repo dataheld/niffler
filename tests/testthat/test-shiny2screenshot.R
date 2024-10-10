@@ -39,11 +39,18 @@ describe("get_screenshot_from_app", {
 })
 
 test_that("screenshots fail according to `strict` setting", {
-  expect_snapshot(
+  expect_equal(
     # messages must be supressed,
     # otherwise snapshot gets polluted with timestamps
     suppressMessages(
       get_screenshot_from_app(counter_button_app(), name = "does_not_exist")
+    ),
+    # oddly, a snapshot doesn't work here,
+    # but keeps getting deleted/re-added
+    glue::glue(
+      "The screenshot could not be generated.",
+      "Please check the logs for errors.",
+      .sep = " "
     )
   )
   expect_error(
@@ -53,4 +60,25 @@ test_that("screenshots fail according to `strict` setting", {
       strict = TRUE
     )
   )
+})
+
+describe("dir_ls_snaps", {
+  variant <- shinytest2::platform_variant(r_version = FALSE)
+  it("finds multiple, named screenshots", {
+    snaps <- dir_ls_snaps(
+      test_file = "helpers",
+      name = "bins",
+      variant = variant,
+      strictly_numbered = FALSE
+    )
+    expect_snapshot(snaps, variant = variant)
+  })
+  it("finds single, named screenshots", {
+    snaps <- dir_ls_snaps(
+      test_file = "helpers",
+      name = "mpg",
+      variant = variant
+    )
+    expect_snapshot(snaps, variant = variant)
+  })
 })
