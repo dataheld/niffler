@@ -128,7 +128,7 @@ get_screenshot_from_app <- function(appDir,
           .sep = " "
         )
       },
-      quiet = FALSE
+      quiet = TRUE
     )
   }
   f_screenshot()
