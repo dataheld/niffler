@@ -61,7 +61,8 @@ describe("dir_ls_snaps", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
       name = "bins",
-      variant = variant
+      variant = variant,
+      strictly_numbered = FALSE
     )
     expect_snapshot(snaps, variant = variant)
   })
