@@ -167,6 +167,7 @@ get_screenshot_from_app_strictly <- function(appDir,
 #' which you are currently testing.
 #' @inheritParams shinytest2::AppDriver
 #' @inheritParams testthat::expect_snapshot_file
+#' @family documentation
 #' @export
 dir_ls_snaps <- function(test_file = character(),
                          name = NULL,
