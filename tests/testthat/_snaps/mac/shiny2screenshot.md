@@ -1,4 +1,4 @@
-# dir_ls_snaps: finds named snaps
+# dir_ls_snaps: finds multiple, named screenshots
 
     Code
       snaps
@@ -9,4 +9,11 @@
       _snaps/mac/helpers/bins-26.png _snaps/mac/helpers/bins-27.png 
       _snaps/mac/helpers/bins-28.png _snaps/mac/helpers/bins-29.png 
       _snaps/mac/helpers/bins-30.png 
+
+# dir_ls_snaps: finds single, named screenshots
+
+    Code
+      snaps
+    Output
+      _snaps/mac/helpers/mpg-001.png
 

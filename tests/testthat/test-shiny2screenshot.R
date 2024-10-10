@@ -64,12 +64,20 @@ test_that("screenshots fail according to `strict` setting", {
 
 describe("dir_ls_snaps", {
   variant <- shinytest2::platform_variant(r_version = FALSE)
-  it("finds named snaps", {
+  it("finds multiple, named screenshots", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
       name = "bins",
       variant = variant,
       strictly_numbered = FALSE
+    )
+    expect_snapshot(snaps, variant = variant)
+  })
+  it("finds single, named screenshots", {
+    snaps <- dir_ls_snaps(
+      test_file = "helpers",
+      name = "mpg",
+      variant = variant
     )
     expect_snapshot(snaps, variant = variant)
   })

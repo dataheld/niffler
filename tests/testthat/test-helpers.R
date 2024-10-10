@@ -1,6 +1,6 @@
 # this need not actually be tested;
 # but the test results, in turn, can be used as screenshot examples
-test_that("example app for multiple steps", {
+test_that("example app for multiple, named screenshots", {
   bins <- 20:30
   purrr::walk(
     bins,
@@ -19,7 +19,7 @@ test_that("example app for multiple steps", {
     }
   )
 })
-test_that("example app for single screenshot", {
+test_that("example app for single, named screenshots", {
   announce_snapshot_file("mpg-001.png")
   skip_if_load_all2()
   driver <- shinytest2::AppDriver$new(
@@ -27,5 +27,14 @@ test_that("example app for single screenshot", {
     name = "mpg",
     variant = shinytest2::platform_variant(r_version = FALSE)
   )
+  driver$expect_screenshot()
+})
+test_that("example app for multiple, unnamed screenshots", {
+  skip_if_load_all2()
+  driver <- shinytest2::AppDriver$new(
+    examples_app("05_sliders"),
+    variant = shinytest2::platform_variant(r_version = FALSE)
+  )
+  driver$expect_screenshot()
   driver$expect_screenshot()
 })
