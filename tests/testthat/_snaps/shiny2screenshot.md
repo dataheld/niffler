@@ -42,5 +42,5 @@
     Code
       suppressMessages(get_screenshot_from_app(counter_button_app(), name = "does_not_exist"))
     Output
-      The screenshot could not be generated.Please check the logs for errors.
+      The screenshot could not be generated. Please check the logs for errors.
 

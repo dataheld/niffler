@@ -125,7 +125,7 @@ get_screenshot_from_app <- function(appDir,
         glue::glue(
           "The screenshot could not be generated.",
           "Please check the logs for errors.",
-          sep = " "
+          .sep = " "
         )
       },
       quiet = FALSE
