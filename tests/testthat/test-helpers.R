@@ -30,6 +30,8 @@ test_that("example app for single, named screenshots", {
   driver$expect_screenshot()
 })
 test_that("example app for multiple, unnamed screenshots", {
+  announce_snapshot_file("001.png")
+  announce_snapshot_file("002.png")
   skip_if_load_all2()
   driver <- shinytest2::AppDriver$new(
     examples_app("05_sliders"),
