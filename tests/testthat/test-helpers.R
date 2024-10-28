@@ -1,6 +1,6 @@
 # this need not actually be tested;
 # but the test results, in turn, can be used as screenshot examples
-test_that("example app for multiple, named screenshots", {
+test_that("example app for manually numbered, named screenshots", {
   bins <- 20:30
   purrr::walk(
     bins,
@@ -19,8 +19,9 @@ test_that("example app for multiple, named screenshots", {
     }
   )
 })
-test_that("example app for single, named screenshots", {
+test_that("example app for automatically numbered, named screenshots", {
   announce_snapshot_file("mpg-001.png")
+  announce_snapshot_file("mpg-002.png")
   skip_if_load_all2()
   driver <- shinytest2::AppDriver$new(
     examples_app("04_mpg"),
@@ -28,8 +29,9 @@ test_that("example app for single, named screenshots", {
     variant = shinytest2::platform_variant(r_version = FALSE)
   )
   driver$expect_screenshot()
+  driver$expect_screenshot()
 })
-test_that("example app for multiple, unnamed screenshots", {
+test_that("example app for automatically numbered, unnamed screenshots", {
   announce_snapshot_file("001.png")
   announce_snapshot_file("002.png")
   skip_if_load_all2()
@@ -40,7 +42,7 @@ test_that("example app for multiple, unnamed screenshots", {
   driver$expect_screenshot()
   driver$expect_screenshot()
 })
-test_that("example app for multiple, individually named screenshots", {
+test_that("example app for non-numbered, named screenshots", {
   announce_snapshot_file("foo.png")
   announce_snapshot_file("bar.png")
   skip_if_load_all2()
