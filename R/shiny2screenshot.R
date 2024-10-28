@@ -157,6 +157,7 @@ get_screenshot_from_app_strictly <- function(appDir,
 #' You can deposit several screenshots of a shiny app using
 #' [shinytest2::AppDriver] in testing.
 #' Use this function to identify all the resulting images.
+#' Typically used for *consecutive* screenshots.
 #' @param test_file
 #' Name of the test file, in which the snapshots are generated,
 #' *without*:
@@ -167,8 +168,38 @@ get_screenshot_from_app_strictly <- function(appDir,
 #' which you are currently testing.
 #' @inheritParams shinytest2::AppDriver
 #' @inheritParams testthat::expect_snapshot_file
-#' @param strictly_numbered
-#' If `TRUE`, filter for snapshot files numbered by [shinytest2::AppDriver].
+#' @inheritParams fs::dir_ls
+#' @family documentation
+#' @export
+dir_ls_snaps <- function(test_file = character(),
+                         regexp = glue_regexp_screenshot_files(),
+                         variant = shinytest2::platform_variant()) {
+  checkmate::assert_string(test_file)
+  test_path <- testthat::test_path(
+    "_snaps",
+    variant,
+    test_file
+  )
+  fs::dir_ls(
+    test_path,
+    all = FALSE,
+    recurse = FALSE,
+    type = "file",
+    regexp = regexp
+  )
+}
+
+#' Build the regular expression to match consecutive screenshots
+#'
+#' [shinytest2::AppDriver] uses several schemes to
+#' name consecutive screenshot files.
+#' Use this regex to capture paths of screenshots.
+#' @param name
+#' The `name` passed to [shinytest2::AppDriver] to be used for screenshots.
+#' Can be `NULL`, for no filtering by name.
+#' @param auto_numbered
+#' If `TRUE`, filter for snapshot files automatically numbered
+#' according to the scheme used by [shinytest2::AppDriver].
 #' If you pass a `name` only to `shinytest2::AppDriver$new()` (recommended),
 #' and then invoke several `shinytest2::AppDriver$expect_snapshot()`,
 #' they resulting snapshots will all have the same name,
@@ -179,31 +210,15 @@ get_screenshot_from_app_strictly <- function(appDir,
 #' directly.
 #' @family documentation
 #' @export
-dir_ls_snaps <- function(test_file = character(),
-                         name = NULL,
-                         variant = shinytest2::platform_variant(),
-                         strictly_numbered = TRUE) {
-  checkmate::assert_string(test_file)
-  checkmate::assert_string(name)
-  checkmate::assert_flag(strictly_numbered)
-  test_path <- testthat::test_path(
-    "_snaps",
-    variant,
-    test_file
-  )
-  # shinytest2 docs have `NULL` as default, but glue does not like `NULL`s
-  if (strictly_numbered) {
-    regexp <- glue::glue("^.*[\\\\/]{name}-\\d{{3}}\\.png$")
-  } else {
-    regexp <- glue::glue("^.*[\\\\/]{name}.*\\.png$")
-  }
-  if (is.null(name)) name <- character()
-  fs::dir_ls(
-    test_path,
-    all = FALSE,
-    recurse = FALSE,
-    type = "file",
+glue_regexp_screenshot_files <- function(name = NULL, auto_numbered = TRUE) {
+  checkmate::assert_string(name, null.ok = TRUE)
+  checkmate::assert_flag(auto_numbered)
+  glue::glue(
+    "^.*[\\\\/]",  # path
+    if (is.null(name)) "" else "{name}",
+    if (!is.null(name) && auto_numbered) "-" else "",
+    if (auto_numbered) "\\d{{3}}" else ".*",
     # shinytest2 only defaults to png
-    regexp = regexp
+    "\\.png$"
   )
 }

@@ -64,19 +64,43 @@ test_that("screenshots fail according to `strict` setting", {
 
 describe("dir_ls_snaps", {
   variant <- shinytest2::platform_variant(r_version = FALSE)
-  it("finds multiple, named screenshots", {
+  it("finds manually numbered, named screenshots", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
-      name = "bins",
-      variant = variant,
-      strictly_numbered = FALSE
+      regexp = glue_regexp_screenshot_files(
+        name = "bins",
+        auto_numbered = FALSE
+      ),
+      variant = variant
     )
     expect_snapshot(snaps, variant = variant)
   })
-  it("finds single, named screenshots", {
+  it("finds automatically numbered, named screenshots", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
-      name = "mpg",
+      regexp = glue_regexp_screenshot_files(
+        name = "mpg",
+        auto_numbered = FALSE
+      ),
+      variant = variant
+    )
+    expect_snapshot(snaps, variant = variant)
+  })
+  it("finds automatically numbered, unnamed screenshots", {
+    snaps <- dir_ls_snaps(
+      test_file = "helpers",
+      regexp = glue_regexp_screenshot_files(),
+      variant = variant
+    )
+    expect_snapshot(snaps, variant = variant)
+  })
+  it("finds non-numbered, named screenshots", {
+    snaps <- dir_ls_snaps(
+      test_file = "helpers",
+      regexp = glue_regexp_screenshot_files(
+        name = "foo",
+        auto_numbered = FALSE
+      ),
       variant = variant
     )
     expect_snapshot(snaps, variant = variant)
