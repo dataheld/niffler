@@ -45,7 +45,9 @@ test_that("example app for multiple, individually named screenshots", {
   announce_snapshot_file("bar.png")
   skip_if_load_all2()
   driver <- shinytest2::AppDriver$new(
-    examples_app("06_tabsets"),
+    # 06_tabsets example was bad to use,
+    # because it uses rnorm and thus keeps changing
+    examples_app("07_widgets"),
     variant = shinytest2::platform_variant(r_version = FALSE)
   )
   driver$expect_screenshot(name = "foo")
