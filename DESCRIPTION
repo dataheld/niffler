@@ -39,7 +39,8 @@ Suggests:
     roxygen2,
     shinytest2,
     showimage,
-    withr
+    withr,
+    magick
 Remotes:
     dataheld/elf
 Config/testthat/edition: 3

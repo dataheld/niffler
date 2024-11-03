@@ -117,4 +117,19 @@ describe("map_snaps_animate", {
     expect_error(map_snaps_animate("i-do-not-exist"))
     expect_error(map_snaps_animate(c("i-do-not-exist", "me-neither")))
   })
+  it("reads in single file", {
+    snaps <- dir_ls_snaps(
+      test_file = "helpers",
+      regexp = glue_regexp_screenshot_files(
+        name = "foo",
+        auto_numbered = FALSE
+      ),
+      variant = variant
+    )
+    testthat::expect_snapshot_file(
+      path = map_snaps_animate(snaps),
+      name = "single.png",
+      variant = variant
+    )
+  })
 })

@@ -238,14 +238,23 @@ glue_regexp_screenshot_files <- function(name = NULL, auto_numbered = TRUE) {
 #' @describeIn get_shinytest_screenshots
 #' Return screenshot.
 #' If several, merge into a gif first.
+#' @return Path to image.
 #' @param snaps
 #' Vector of file names, as returned by [dir_ls_snaps()]
 #' @export
 map_snaps_animate <- function(snaps = fs::path()) {
-  purrr::map(
-    .x = snaps,
-    .f = function(snap) {
-      checkmate::assert_file_exists(snap, access = "r")
-    }
+  if (any(!fs::file_exists(snaps))) rlang::abort("File could not be found.")
+  names(snaps) <- fs::path_file(snaps)
+  if (length(snaps) == 1) {
+    return(snaps)
+  } else {
+    check_installed_magick()
+  }
+}
+
+check_installed_magick <- function() {
+  rlang::check_installed(
+    "magick",
+    reason = "magick is needed show `snaps`."
   )
 }
