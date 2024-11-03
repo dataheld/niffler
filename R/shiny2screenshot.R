@@ -236,20 +236,33 @@ glue_regexp_screenshot_files <- function(name = NULL, auto_numbered = TRUE) {
 }
 
 #' @describeIn get_shinytest_screenshots
-#' Return screenshot.
-#' If several, merge into a gif first.
-#' @return Path to image.
+#' Read in screenshot.
+#' If several, animate into a gif.
 #' @param snaps
 #' Vector of file names, as returned by [dir_ls_snaps()]
+#' @inheritParams magick::image_animate
+#' @inheritDotParams magick::image_animate
+#' @return A `magick-image`.
 #' @export
-map_snaps_animate <- function(snaps = fs::path()) {
+image_animate_snaps <- function(snaps = fs::path(), fps = 5,...) {
   if (any(!fs::file_exists(snaps))) rlang::abort("File could not be found.")
   names(snaps) <- fs::path_file(snaps)
+  check_installed_magick()
+  res <- magick::image_read(snaps)
   if (length(snaps) == 1) {
-    return(snaps)
+    res
   } else {
-    check_installed_magick()
+    magick::image_animate(res, fps = fps, ...)
   }
+}
+
+#' @describeIn get_shinytest_screenshots
+#' Write out (merged) screenshots to new path.
+#' @inheritParams magick::image_write
+#' @return Path to the (merged) screenshots.
+#' @export
+image_write_snaps <- function(image, path = withr::local_tempfile()) {
+  magick::image_write(image = image, path = path)
 }
 
 check_installed_magick <- function() {

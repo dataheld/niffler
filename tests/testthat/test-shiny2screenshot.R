@@ -117,7 +117,7 @@ describe("map_snaps_animate", {
     expect_error(map_snaps_animate("i-do-not-exist"))
     expect_error(map_snaps_animate(c("i-do-not-exist", "me-neither")))
   })
-  it("reads in single file", {
+  it("reads in single screenshot", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
       regexp = glue_regexp_screenshot_files(
@@ -126,9 +126,26 @@ describe("map_snaps_animate", {
       ),
       variant = variant
     )
+    path <- withr::local_tempfile()
     testthat::expect_snapshot_file(
-      path = map_snaps_animate(snaps),
+      path = image_animate_snaps(snaps) |> image_write_snaps(path = path),
       name = "single.png",
+      variant = variant
+    )
+  })
+  it("reads in multiple screenshots", {
+    snaps <- dir_ls_snaps(
+      test_file = "helpers",
+      regexp = glue_regexp_screenshot_files(
+        name = "bins",
+        auto_numbered = FALSE
+      ),
+      variant = variant
+    )
+    path <- withr::local_tempfile()
+    testthat::expect_snapshot_file(
+      path = image_animate_snaps(snaps) |> image_write_snaps(path = path),
+      name = "multiple.gif",
       variant = variant
     )
   })
