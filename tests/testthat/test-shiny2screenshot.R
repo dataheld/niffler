@@ -19,25 +19,29 @@ describe("roxy_tag_nifflerExamplesShiny", {
     }
   )
 })
-# these should use boring counter_button_app, not examples_app,
-# because they're in this package and don't change
-# upstream change from shiny examples could break screenshots
-describe("get_screenshot_from_app", {
-  name <- "counter.png"
-  announce_snapshot_file(name = name)
-  skip_if_load_all2()
-  path <- withr::local_tempfile(fileext = ".png")
-  it(
-    "can record a screenshot",
-    {
-      get_screenshot_from_app(counter_button_app(), file = path)
-      expect_snapshot_file(
-        path = path,
-        name = name,
-        variant = variant
-      )
-    }
-  )
+# unnecessary wrapper, but otherwise skip has global scope,
+# see #32
+test_that("get_screenshot_works", {
+  # these should use boring counter_button_app, not examples_app,
+  # because they're in this package and don't change
+  # upstream change from shiny examples could break screenshots
+  describe("get_screenshot_from_app", {
+    name <- "counter.png"
+    announce_snapshot_file(name = name)
+    skip_if_load_all2()
+    path <- withr::local_tempfile(fileext = ".png")
+    it(
+      "can record a screenshot",
+      {
+        get_screenshot_from_app(counter_button_app(), file = path)
+        expect_snapshot_file(
+          path = path,
+          name = name,
+          variant = variant
+        )
+      }
+    )
+  })
 })
 
 test_that("screenshots fail according to `strict` setting", {
