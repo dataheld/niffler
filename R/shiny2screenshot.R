@@ -163,15 +163,6 @@ get_screenshot_from_app_strictly <- function(appDir,
 NULL
 
 #' @describeIn get_shinytest_screenshots
-#' Return matched screenshots, as a gif if necessary.
-#' @export
-map_snaps_animate <- function(test_file = character(),
-                              regexp = glue_regexp_screenshot_files(),
-                              variant = shinytest2::platform_variant()) {
-  NULL
-}
-
-#' @describeIn get_shinytest_screenshots
 #' List all testthat `_snaps/` screenshots
 #' Finds all files for a variant, file and name.
 #'
@@ -241,5 +232,20 @@ glue_regexp_screenshot_files <- function(name = NULL, auto_numbered = TRUE) {
     if (auto_numbered) "\\d{{3}}" else ".*",
     # shinytest2 only defaults to png
     "\\.png$"
+  )
+}
+
+#' @describeIn get_shinytest_screenshots
+#' Return screenshot.
+#' If several, merge into a gif first.
+#' @param snaps
+#' Vector of file names, as returned by [dir_ls_snaps()]
+#' @export
+map_snaps_animate <- function(snaps = fs::path()) {
+  purrr::map(
+    .x = snaps,
+    .f = function(snap) {
+      checkmate::assert_file_exists(snap, access = "r")
+    }
   )
 }

@@ -107,3 +107,10 @@ describe("dir_ls_snaps", {
     expect_snapshot(snaps, variant = variant)
   })
 })
+
+describe("map_snaps_animate", {
+  it("fails if file is missing", {
+    expect_error(map_snaps_animate("i-do-not-exist"))
+    expect_error(map_snaps_animate(c("i-do-not-exist", "me-neither")))
+  })
+})
