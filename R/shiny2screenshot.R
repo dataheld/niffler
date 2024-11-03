@@ -227,11 +227,7 @@ dir_ls_snaps <- function(test_file = character(),
                          regexp = glue_regexp_screenshot_files(),
                          variant = shinytest2::platform_variant()) {
   checkmate::assert_string(test_file)
-  test_path <- testthat::test_path(
-    "_snaps",
-    variant,
-    test_file
-  )
+  test_path <- testthat::test_path("_snaps", variant, test_file)
   fs::dir_ls(
     test_path,
     all = FALSE,
