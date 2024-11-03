@@ -150,3 +150,19 @@ describe("map_snaps_animate", {
     )
   })
 })
+
+describe("snaps_2_man", {
+  it("writes out snapshots to man folder", {
+    output_path <- "man/figures/niffler_screenshots/helpers/bins.gif"
+    withr::defer(fs::file_delete(output_path))
+    snaps_2_man(
+      test_file = "helpers",
+      name = "bins",
+      auto_numbered = FALSE,
+      variant = variant
+    )
+    checkmate::expect_file_exists(
+      "man/figures/niffler_screenshots/helpers/bins.gif"
+    )
+  })
+})

@@ -152,6 +152,7 @@ get_screenshot_from_app_strictly <- function(appDir,
 
 # nifflerInsertSnaps tag ====
 
+
 #' Get shinytest screenshots
 #'
 #' Retrieves screenshots from
@@ -161,6 +162,43 @@ get_screenshot_from_app_strictly <- function(appDir,
 #' @family documentation
 #' @name get_shinytest_screenshots
 NULL
+
+#' @describeIn get_shinytest_screenshots
+#' Save screenshots to `man/figures` and return path
+#' @inheritParams glue_regexp_screenshot_files
+#' @export
+snaps_2_man <- function(test_file = character(),
+                        name = NULL,
+                        auto_numbered = TRUE,
+                        variant = shinytest2::platform_variant(),
+                        fps = 5,
+                        ...) {
+  snaps_paths <- dir_ls_snaps(
+    test_file = test_file,
+    regexp = glue_regexp_screenshot_files(
+      name = name,
+      auto_numbered = auto_numbered
+    ),
+    variant = variant
+  )
+  if (length(snaps_paths) == 0) {
+    rlang::abort(
+      "No images were found."
+    )
+  }
+  snaps_img <- image_animate_snaps(snaps = snaps_paths, fps = fps, ...)
+  path_for_results <- fs::path(
+    "man",
+    "figures",
+    "niffler_screenshots",
+    test_file,
+    if (!is.null(name)) name,
+    ext = unique(magick::image_info(snaps_img)$format)
+  )
+  fs::dir_create(path = fs::path_dir(path_for_results))
+  res <- image_write_snaps(snaps_img, path = path_for_results)
+  res
+}
 
 #' @describeIn get_shinytest_screenshots
 #' List all testthat `_snaps/` screenshots
