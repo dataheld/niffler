@@ -1,3 +1,5 @@
+variant <- shinytest2::platform_variant(r_version = FALSE)
+
 describe("roxy_tag_nifflerExamplesShiny", {
   example <- brio::read_file(
     fs::path_package(
@@ -32,7 +34,7 @@ describe("get_screenshot_from_app", {
       expect_snapshot_file(
         path = path,
         name = name,
-        variant = shinytest2::platform_variant(r_version = FALSE)
+        variant = variant
       )
     }
   )
@@ -63,7 +65,6 @@ test_that("screenshots fail according to `strict` setting", {
 })
 
 describe("dir_ls_snaps", {
-  variant <- shinytest2::platform_variant(r_version = FALSE)
   it("finds manually numbered, named screenshots", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
