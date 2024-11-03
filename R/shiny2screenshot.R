@@ -248,7 +248,8 @@ image_animate_snaps <- function(snaps = fs::path(), fps = 5, ...) {
   if (any(!fs::file_exists(snaps))) rlang::abort("File could not be found.")
   names(snaps) <- fs::path_file(snaps)
   check_installed_magick()
-  res <- magick::image_read(snaps)
+  # stripping helps to avoid spurious diffs
+  res <- magick::image_read(snaps, strip = TRUE)
   if (length(snaps) == 1) {
     res
   } else {

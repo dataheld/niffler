@@ -1,11 +1,10 @@
-# this need not actually be tested;
-# but the test results, in turn, can be used as screenshot examples
 test_that("example app for manually numbered, named screenshots", {
   bins <- 20:30
   purrr::walk(
     bins,
     function(bin) testthat::announce_snapshot_file(glue::glue("bins-{bin}.png"))
   )
+  skip_example_screenshots()
   skip_if_load_all2()
   driver <- shinytest2::AppDriver$new(
     examples_app(),
@@ -22,6 +21,7 @@ test_that("example app for manually numbered, named screenshots", {
 test_that("example app for automatically numbered, named screenshots", {
   announce_snapshot_file("mpg-001.png")
   announce_snapshot_file("mpg-002.png")
+  skip_example_screenshots()
   skip_if_load_all2()
   driver <- shinytest2::AppDriver$new(
     examples_app("04_mpg"),
@@ -34,6 +34,7 @@ test_that("example app for automatically numbered, named screenshots", {
 test_that("example app for automatically numbered, unnamed screenshots", {
   announce_snapshot_file("001.png")
   announce_snapshot_file("002.png")
+  skip_example_screenshots()
   skip_if_load_all2()
   driver <- shinytest2::AppDriver$new(
     examples_app("05_sliders"),
@@ -45,6 +46,7 @@ test_that("example app for automatically numbered, unnamed screenshots", {
 test_that("example app for non-numbered, named screenshots", {
   announce_snapshot_file("foo.png")
   announce_snapshot_file("bar.png")
+  skip_example_screenshots()
   skip_if_load_all2()
   driver <- shinytest2::AppDriver$new(
     # 06_tabsets example was bad to use,
