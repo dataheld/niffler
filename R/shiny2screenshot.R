@@ -164,7 +164,7 @@ get_screenshot_from_app_strictly <- function(appDir,
 NULL
 
 #' @describeIn get_shinytest_screenshots
-#' Save screenshots to `man/figures` and return path
+#' Save screenshots to `man/figures` and return *relative* path from there.
 #' @inheritParams glue_regexp_screenshot_files
 #' @export
 snaps_2_man <- function(test_file = character(),
@@ -196,8 +196,10 @@ snaps_2_man <- function(test_file = character(),
     ext = unique(magick::image_info(snaps_img)$format)
   )
   fs::dir_create(path = fs::path_dir(path_for_results))
+  # side effect happens here
   res <- image_write_snaps(snaps_img, path = path_for_results)
-  res
+  # roxygen2/man markdown expects relative paths from here
+  fs::path_rel(res, start = "man/figures")
 }
 
 #' @describeIn get_shinytest_screenshots

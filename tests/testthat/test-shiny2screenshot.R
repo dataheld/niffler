@@ -155,7 +155,7 @@ describe("snaps_2_man", {
   it("writes out snapshots to man folder", {
     output_path <- "man/figures/niffler_screenshots/helpers/bins.gif"
     withr::defer(fs::file_delete(output_path))
-    snaps_2_man(
+    res <- snaps_2_man(
       test_file = "helpers",
       name = "bins",
       auto_numbered = FALSE,
@@ -163,6 +163,10 @@ describe("snaps_2_man", {
     )
     checkmate::expect_file_exists(
       "man/figures/niffler_screenshots/helpers/bins.gif"
+    )
+    expect_equal(
+      res,
+      fs::path("niffler_screenshots", "helpers", "bins", ext = "gif")
     )
   })
 })
