@@ -244,7 +244,7 @@ glue_regexp_screenshot_files <- function(name = NULL, auto_numbered = TRUE) {
 #' @inheritDotParams magick::image_animate
 #' @return A `magick-image`.
 #' @export
-image_animate_snaps <- function(snaps = fs::path(), fps = 5,...) {
+image_animate_snaps <- function(snaps = fs::path(), fps = 5, ...) {
   if (any(!fs::file_exists(snaps))) rlang::abort("File could not be found.")
   names(snaps) <- fs::path_file(snaps)
   check_installed_magick()
