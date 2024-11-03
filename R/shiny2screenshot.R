@@ -150,13 +150,35 @@ get_screenshot_from_app_strictly <- function(appDir,
   driver$get_screenshot(file = file)
 }
 
-#' List all testthat `_snaps/` screenshots
+# nifflerInsertSnaps tag ====
+
+#' Get shinytest screenshots
 #'
+#' Retrieves screenshots from
+#' [testthat](https://testthat.r-lib.org)'s `_snaps/` directory.
+#' If several files match `dir_ls_snaps()`,
+#' they are merged into an animated gif.
+#' @family documentation
+#' @name get_shinytest_screenshots
+NULL
+
+#' @describeIn get_shinytest_screenshots
+#' Return matched screenshots, as a gif if necessary.
+#' @export
+map_snaps_animate <- function(test_file = character(),
+                              regexp = glue_regexp_screenshot_files(),
+                              variant = shinytest2::platform_variant()) {
+  NULL
+}
+
+#' @describeIn get_shinytest_screenshots
+#' List all testthat `_snaps/` screenshots
 #' Finds all files for a variant, file and name.
 #'
+#' @section Matching several screenshots:
 #' You can deposit several screenshots of a shiny app using
 #' [shinytest2::AppDriver] in testing.
-#' Use this function to identify all the resulting images.
+#' Use [dir_ls_snaps()] to identify all the resulting images.
 #' Typically used for *consecutive* screenshots.
 #' @param test_file
 #' Name of the test file, in which the snapshots are generated,
@@ -169,7 +191,6 @@ get_screenshot_from_app_strictly <- function(appDir,
 #' @inheritParams shinytest2::AppDriver
 #' @inheritParams testthat::expect_snapshot_file
 #' @inheritParams fs::dir_ls
-#' @family documentation
 #' @export
 dir_ls_snaps <- function(test_file = character(),
                          regexp = glue_regexp_screenshot_files(),
