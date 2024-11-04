@@ -23,3 +23,12 @@ examples_app <- function(example = "01_hello") {
 skip_if_load_all2 <- function() {
   elf::skip_if_pkg_installed_but_not_via_loadall("niffler")
 }
+
+skip_example_screenshots <- function() {
+  testthat::skip(
+    message = paste(
+      "Setting up example screenshots.",
+      "These need not be tested themselves, but are used in other tests."
+    )
+  )
+}

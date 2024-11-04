@@ -37,10 +37,40 @@
       }
       } 
 
-# screenshots fail according to `strict` setting
+# roxy_tag_nifflerInsertSnaps: can be parsed
 
     Code
-      suppressMessages(get_screenshot_from_app(counter_button_app(), name = "does_not_exist"))
+      roxygen2::parse_text(example)[[1]]$tags
     Output
-      The screenshot could not be generated.Please check the logs for errors.
+      [[1]]
+      [<text>:  1] @title 'An example documentation with inserted snaps' {parsed}
+      
+      [[2]]
+      [<text>:  2] @nifflerInsertSnaps '...' {parsed}
+      
+      [[3]]
+      [<text>:  7] @usage '<generated>' {parsed}
+      
+      [[4]]
+      [<text>:  7] @.formals '<generated>' {unparsed}
+      
+      [[5]]
+      [<text>:  7] @backref '<generated>' {parsed}
+      
+
+# roxy_tag_nifflerInsertSnaps: can be formatted
+
+    Code
+      topic$get_section("nifflerInsertSnaps")
+    Output
+      \section{Screenshots from Tests}{
+      \if{html}{\figure{niffler_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
+       
+
+# snaps2fig and friends work: writes out markdown syntax
+
+    Code
+      res
+    Output
+      [1] "![Screenshot from App](niffler_screenshots/helpers/bins.gif)"
 
