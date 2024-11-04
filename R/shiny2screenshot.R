@@ -154,7 +154,12 @@ get_screenshot_from_app_strictly <- function(appDir,
 
 #' @rdname tag_shiny
 #' @details
-#' - `@nifflerInsertSnaps ${1:test_file} ${2:name} ${3:auto_numbered} ${4:variant} ${5:fps}`
+#' - `@nifflerInsertSnaps
+#'    ${1:test_file}
+#'    ${2:name}
+#'    ${3:auto_numbered}
+#'    ${4:variant}
+#'    ${5:fps}`
 #'    Insert screenshots from
 #'    [shinytest2](https://rstudio.github.io/shinytest2/) snapshots.
 #'    For arguments and defaults, see [snaps2man()].
