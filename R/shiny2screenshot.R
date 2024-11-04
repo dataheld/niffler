@@ -167,12 +167,12 @@ NULL
 #' Save screenshots to `man/figures` and return *relative* path from there.
 #' @inheritParams glue_regexp_screenshot_files
 #' @export
-snaps_2_man <- function(test_file = character(),
-                        name = NULL,
-                        auto_numbered = TRUE,
-                        variant = shinytest2::platform_variant(),
-                        fps = 5,
-                        ...) {
+snaps2man <- function(test_file = character(),
+                      name = NULL,
+                      auto_numbered = TRUE,
+                      variant = shinytest2::platform_variant(),
+                      fps = 5,
+                      ...) {
   snaps_paths <- dir_ls_snaps(
     test_file = test_file,
     regexp = glue_regexp_screenshot_files(
