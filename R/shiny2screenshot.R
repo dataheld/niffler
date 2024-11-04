@@ -18,14 +18,14 @@ NULL
 
 #' @rdname tag_shiny
 #' @details
-#' - `@nifflerExamplesShiny${1:# example code}`
+#' - `@nifflerExamplesShiny$ {1:# example code}`
 #'    R code which returns a shiny app.
 #'    A screenshot of the shiny app is added to the documentation,
 #'    along with the code required to create the screenshot and
 #'    launch the app interactively.
 #'    Wraps @examples.
 #' @usage
-#' # @nifflerExamplesShiny${1:# example code}
+#' # @nifflerExamplesShiny ${1:# example code}
 #' @name nifflerExamplesShiny
 NULL
 

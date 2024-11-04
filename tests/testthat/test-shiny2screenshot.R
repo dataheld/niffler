@@ -151,11 +151,11 @@ describe("map_snaps_animate", {
   })
 })
 
-describe("snaps_2_man", {
+describe("snaps2man", {
   it("writes out snapshots to man folder", {
     output_path <- "man/figures/niffler_screenshots/helpers/bins.gif"
     withr::defer(fs::file_delete(output_path))
-    res <- snaps_2_man(
+    res <- snaps2man(
       test_file = "helpers",
       name = "bins",
       auto_numbered = FALSE,
