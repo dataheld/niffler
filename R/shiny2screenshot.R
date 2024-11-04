@@ -9,7 +9,7 @@
 #' But for quick reference, a screenshot or gif of a shiny app
 #' are still helpful for the reader of your documentation.
 #'
-#' @family documentation
+#' @family screenshot
 #'
 #' @name tag_shiny
 NULL
@@ -100,7 +100,7 @@ check_installed_shinytest2 <- function() {
 #' \dontrun{
 #' get_screenshot_from_app(examples_app())
 #' }
-#' @family documentation
+#' @family screenshot
 #' @export
 get_screenshot_from_app <- function(appDir,
                                     screenshot_args =
@@ -211,7 +211,7 @@ format.rd_section_crowInsertSnaps <- function(x, ...) {
 #' [testthat](https://testthat.r-lib.org)'s `_snaps/` directory.
 #' If several files match `dir_ls_snaps()`,
 #' they are merged into an animated gif.
-#' @family documentation
+#' @family screenshot
 #' @name get_screenshot_from_snaps
 NULL
 
@@ -338,7 +338,7 @@ dir_ls_snaps <- function(test_file = character(),
 #' You may need to set `FALSE`
 #' if you pass a name to`shinytest2::AppDriver$expect_snapshot()`
 #' directly.
-#' @family documentation
+#' @family screenshot
 #' @export
 glue_regexp_snaps <- function(name = NULL, auto_numbered = TRUE) {
   checkmate::assert_string(name, null.ok = TRUE)
