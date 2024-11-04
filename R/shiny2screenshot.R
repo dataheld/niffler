@@ -188,10 +188,9 @@ roxy_tag_parse.roxy_tag_nifflerInsertSnaps <- function(x) {
 roxy_tag_rd.roxy_tag_nifflerInsertSnaps <- function(x, base_path, env) {
   args <- as.list(x[["val"]])
   if (length(args) >= 2) args[[3]] <- as.logical(args[[3]])
-  path <- rlang::exec(snaps2fig, !!!args)
   roxygen2::rd_section(
     type = "nifflerInsertSnaps",
-    value = path
+    value = rlang::exec(snaps2rd, !!!args)
   )
 }
 
@@ -200,14 +199,7 @@ format.rd_section_nifflerInsertSnaps <- function(x, ...) {
   paste0(
     "\\section{Screenshots from Tests}{\n",
     "\\if{html}",
-    paste0(
-      "{\\figure{",
-      x$value,
-      "}{options: width='100\\%' alt=",
-      snap_alt_text(),
-      "}}",
-      collapse = ""
-    ),
+    x$value,
     "\\if{latex}{Screenshots cannot be shown in this output format.}",
     "}\n"
   )
@@ -267,24 +259,29 @@ snap_alt_text <- function() "Screenshot from App"
 #' @describeIn get_screenshot_from_snaps
 #' Save screenshots to `man/figures` and return markdown image markup,
 #' to be inserted in roxygen2 documentation.
+#' @param ... Arguments passed on to other functions.
+#' @export
+snaps2md <- function(...) {
+  path <- snaps2fig(...)
+  paste0("![", snap_alt_text(), "](", path, ")", collapse = "")
+}
+
+#' @describeIn get_screenshot_from_snaps
+#' Save screenshots to `man/figures` and return R documentation image markup,
+#' to be inserted in R documentation.
 #' For a custom roxygen2 tag with equivalent funcionality,
 #' see [nifflerInsertSnaps()].
 #' @export
-snaps2md <- function(test_file = character(),
-                     name = NULL,
-                     auto_numbered = TRUE,
-                     variant = shinytest2::platform_variant(),
-                     fps = 5,
-                    ...) {
-  path <- snaps2fig(
-    test_file = test_file,
-    name = name,
-    auto_numbered = auto_numbered,
-    variant = variant,
-    fps = fps,
-    ...
+snaps2rd <- function(...) {
+  path <- snaps2fig(...)
+  paste0(
+    "{\\figure{",
+    path,
+    "}{options: width='100\\%' alt=",
+    snap_alt_text(),
+    "}}",
+    collapse = ""
   )
-  paste0("![", snap_alt_text(), "](", path, ")", collapse = "")
 }
 
 #' @describeIn get_screenshot_from_snaps
