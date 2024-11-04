@@ -152,6 +152,22 @@ get_screenshot_from_app_strictly <- function(appDir,
 
 # nifflerInsertSnaps tag ====
 
+#' @rdname tag_shiny
+#' @details
+#' - `@nifflerInsertSnaps ${1:test_file} ${2:name} ${3:auto_numbered}`
+#'    Insert screenshots from
+#'    [shinytest2](https://rstudio.github.io/shinytest2/) snapshots.
+#'    For arguments and defaults, see [snaps2man()].
+#' @usage
+#' # @nifflerInsertSnaps ${1:test_file} ${2:name} ${3:auto_numbered}
+#' @name nifflerInsertSnaps
+NULL
+
+#' @exportS3Method roxygen2::roxy_tag_parse
+roxy_tag_parse.roxy_tag_nifflerInsertSnaps <- function(x) {
+  check_installed_roxygen2()
+  roxygen2::tag_words(x, min = 1, max = 3)
+}
 
 #' Get shinytest screenshots
 #'

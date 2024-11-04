@@ -68,6 +68,19 @@ test_that("screenshots fail according to `strict` setting", {
   )
 })
 
+describe("roxy_tag_nifflerInsertSnaps", {
+  example <- brio::read_file(
+    fs::path_package(
+      package = "niffler",
+      "examples", "snaps2man", "example", ext = "R"
+    )
+  )
+  it(
+    "can be parsed",
+    expect_snapshot(roxygen2::parse_text(example)[[1]]$tags)
+  )
+})
+
 describe("dir_ls_snaps", {
   it("finds manually numbered, named screenshots", {
     snaps <- dir_ls_snaps(

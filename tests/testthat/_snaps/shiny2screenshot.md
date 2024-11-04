@@ -37,3 +37,24 @@
       }
       } 
 
+# roxy_tag_nifflerInsertSnaps: can be parsed
+
+    Code
+      roxygen2::parse_text(example)[[1]]$tags
+    Output
+      [[1]]
+      [<text>:  1] @title 'An example documentation with inserted snaps' {parsed}
+      
+      [[2]]
+      [<text>:  2] @nifflerInsertSnaps 'helpers bins FALSE' {parsed}
+      
+      [[3]]
+      [<text>:  3] @usage '<generated>' {parsed}
+      
+      [[4]]
+      [<text>:  3] @.formals '<generated>' {unparsed}
+      
+      [[5]]
+      [<text>:  3] @backref '<generated>' {parsed}
+      
+
