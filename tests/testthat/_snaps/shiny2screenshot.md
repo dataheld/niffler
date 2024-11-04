@@ -46,15 +46,24 @@
       [<text>:  1] @title 'An example documentation with inserted snaps' {parsed}
       
       [[2]]
-      [<text>:  2] @nifflerInsertSnaps 'helpers bins FALSE' {parsed}
+      [<text>:  2] @nifflerInsertSnaps '...' {parsed}
       
       [[3]]
-      [<text>:  3] @usage '<generated>' {parsed}
+      [<text>:  7] @usage '<generated>' {parsed}
       
       [[4]]
-      [<text>:  3] @.formals '<generated>' {unparsed}
+      [<text>:  7] @.formals '<generated>' {unparsed}
       
       [[5]]
-      [<text>:  3] @backref '<generated>' {parsed}
+      [<text>:  7] @backref '<generated>' {parsed}
       
+
+# roxy_tag_nifflerInsertSnaps: can be formatted
+
+    Code
+      topic$get_section("nifflerInsertSnaps")
+    Output
+      \section{Screenshots from Tests}{
+      \if{html}{\figure{niffler_screenshots/helpers/bins.gif}{options: width='100\%' alt='Screenshot from App'}}\if{latex}{Screenshots cannot be shown in this output format.}}
+       
 

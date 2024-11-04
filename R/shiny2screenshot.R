@@ -154,19 +154,56 @@ get_screenshot_from_app_strictly <- function(appDir,
 
 #' @rdname tag_shiny
 #' @details
-#' - `@nifflerInsertSnaps ${1:test_file} ${2:name} ${3:auto_numbered}`
+#' - `@nifflerInsertSnaps ${1:test_file} ${2:name} ${3:auto_numbered} ${4:variant} ${5:fps}`
 #'    Insert screenshots from
 #'    [shinytest2](https://rstudio.github.io/shinytest2/) snapshots.
 #'    For arguments and defaults, see [snaps2man()].
 #' @usage
-#' # @nifflerInsertSnaps ${1:test_file} ${2:name} ${3:auto_numbered}
+#' # @nifflerInsertSnaps
+#' # ${1:test_file}
+#' # ${2:name}
+#' # ${3:auto_numbered}
+#' # ${4:variant}
+#' # ${5:fps}
+#' @nifflerInsertSnaps
+#' helpers
+#' bins
+#' FALSE
+#' linux
 #' @name nifflerInsertSnaps
 NULL
 
 #' @exportS3Method roxygen2::roxy_tag_parse
 roxy_tag_parse.roxy_tag_nifflerInsertSnaps <- function(x) {
   check_installed_roxygen2()
-  roxygen2::tag_words(x, min = 1, max = 3)
+  roxygen2::tag_words(x, min = 1, max = 5)
+}
+
+#' @exportS3Method roxygen2::roxy_tag_rd
+roxy_tag_rd.roxy_tag_nifflerInsertSnaps <- function(x, base_path, env) {
+  args <- as.list(x[["val"]])
+  if (length(args) >= 2) args[[3]] <- as.logical(args[[3]])
+  path <- rlang::exec(snaps2man, !!!args)
+  roxygen2::rd_section(
+    type = "nifflerInsertSnaps",
+    value = path
+  )
+}
+
+#' @export
+format.rd_section_nifflerInsertSnaps <- function(x, ...) {
+  paste0(
+    "\\section{Screenshots from Tests}{\n",
+    "\\if{html}",
+    paste0(
+      "{\\figure{",
+      x$value,
+      "}{options: width='100\\%' alt='Screenshot from App'}}",
+      collapse = ""
+    ),
+    "\\if{latex}{Screenshots cannot be shown in this output format.}",
+    "}\n"
+  )
 }
 
 #' Get shinytest screenshots
@@ -294,7 +331,7 @@ glue_regexp_screenshot_files <- function(name = NULL, auto_numbered = TRUE) {
 #' Vector of file names, as returned by [dir_ls_snaps()]
 #' @inheritParams magick::image_animate
 #' @inheritDotParams magick::image_animate
-#' @return A `magick-image`.
+#' @return For [image_animate_snaps()] A `magick-image`.
 #' @export
 image_animate_snaps <- function(snaps = fs::path(), fps = 5, ...) {
   if (any(!fs::file_exists(snaps))) rlang::abort("File could not be found.")
@@ -312,7 +349,7 @@ image_animate_snaps <- function(snaps = fs::path(), fps = 5, ...) {
 #' @describeIn get_shinytest_screenshots
 #' Write out (merged) screenshots to new path.
 #' @inheritParams magick::image_write
-#' @return Path to the (merged) screenshots.
+#' @return For [image_write_snaps()], path to the (merged) screenshots.
 #' @export
 image_write_snaps <- function(image, path = withr::local_tempfile()) {
   magick::image_write(image = image, path = path)
