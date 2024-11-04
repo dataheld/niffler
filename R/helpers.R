@@ -10,7 +10,8 @@ source_pef <- function(...) {
 #' @crowExamplesShiny
 #' examples_app()
 #' @inheritParams shiny::runExample
-#' @family documentation
+#' @family screenshot
+#' @keywords internal
 #' @export
 examples_app <- function(example = "01_hello") {
   # library calls and others make noise
