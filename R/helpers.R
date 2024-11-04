@@ -1,13 +1,13 @@
 source_pef <- function(...) {
   rlang::check_installed("elf")
-  elf::source_pef(..., package = "niffler")
+  elf::source_pef(..., package = "crow")
 }
 
 #' Example shiny apps
 #'
 #' These are the example apps shipping with shiny as `shiny.appobj`.
 #' Also shows screenshot in documentation.
-#' @nifflerExamplesShiny
+#' @crowExamplesShiny
 #' examples_app()
 #' @inheritParams shiny::runExample
 #' @family documentation
@@ -21,7 +21,7 @@ examples_app <- function(example = "01_hello") {
 }
 
 skip_if_load_all2 <- function() {
-  elf::skip_if_pkg_installed_but_not_via_loadall("niffler")
+  elf::skip_if_pkg_installed_but_not_via_loadall("crow")
 }
 
 skip_example_screenshots <- function() {

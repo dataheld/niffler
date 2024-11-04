@@ -5,7 +5,7 @@
 docs/
 man/*.Rd
 !man/figures/
-man/figures/niffler_screenshots
+man/figures/crow_screenshots
 ~*.xlsx
 ~*.xlsm
 # {shinytest2}: Ignore new debug snapshots for `$expect_values()`

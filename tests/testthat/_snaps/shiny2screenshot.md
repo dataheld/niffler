@@ -1,4 +1,4 @@
-# roxy_tag_nifflerExamplesShiny: can be parsed
+# roxy_tag_crowExamplesShiny: can be parsed
 
     Code
       roxygen2::parse_text(example)[[1]]$tags
@@ -7,7 +7,7 @@
       [<text>:  1] @title 'An example documentation for a shiny app' {parsed}
       
       [[2]]
-      [<text>:  2] @nifflerExamplesShiny '...' {parsed}
+      [<text>:  2] @crowExamplesShiny '...' {parsed}
       
       [[3]]
       [<text>:  4] @usage '<generated>' {parsed}
@@ -19,7 +19,7 @@
       [<text>:  4] @backref '<generated>' {parsed}
       
 
-# roxy_tag_nifflerExamplesShiny: can be formatted
+# roxy_tag_crowExamplesShiny: can be formatted
 
     Code
       topic$get_section("examples")
@@ -37,7 +37,7 @@
       }
       } 
 
-# roxy_tag_nifflerInsertSnaps: can be parsed
+# roxy_tag_crowInsertSnaps: can be parsed
 
     Code
       roxygen2::parse_text(example)[[1]]$tags
@@ -46,7 +46,7 @@
       [<text>:  1] @title 'An example documentation with inserted snaps' {parsed}
       
       [[2]]
-      [<text>:  2] @nifflerInsertSnaps '...' {parsed}
+      [<text>:  2] @crowInsertSnaps '...' {parsed}
       
       [[3]]
       [<text>:  7] @usage '<generated>' {parsed}
@@ -58,13 +58,13 @@
       [<text>:  7] @backref '<generated>' {parsed}
       
 
-# roxy_tag_nifflerInsertSnaps: can be formatted
+# roxy_tag_crowInsertSnaps: can be formatted
 
     Code
-      topic$get_section("nifflerInsertSnaps")
+      topic$get_section("crowInsertSnaps")
     Output
       \section{Screenshots from Tests}{
-      \if{html}{\figure{niffler_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
+      \if{html}{\figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
        
 
 # snaps2fig and friends work: writes out markdown syntax
@@ -72,5 +72,5 @@
     Code
       res
     Output
-      [1] "![Screenshot from App](niffler_screenshots/helpers/bins.gif)"
+      [1] "![Screenshot from App](crow_screenshots/helpers/bins.gif)"
 

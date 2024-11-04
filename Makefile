@@ -82,7 +82,7 @@ test-installed: install
 		"testthat::test_local(stop_on_warning = TRUE, load_package = 'installed')"
 
 test-installed-docker: bake
-	docker run -it -v .:/root/source ghcr.io/dataheld/niffler/builder:latest make test-installed
+	docker run -it -v .:/root/source ghcr.io/dataheld/crow/builder:latest make test-installed
 
 install: roxygenise
 	Rscript \

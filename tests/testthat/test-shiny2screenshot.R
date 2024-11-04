@@ -1,9 +1,9 @@
 variant <- shinytest2::platform_variant(r_version = FALSE)
 
-describe("roxy_tag_nifflerExamplesShiny", {
+describe("roxy_tag_crowExamplesShiny", {
   example <- brio::read_file(
     fs::path_package(
-      package = "niffler",
+      package = "crow",
       "examples", "shiny2screenshot", "example", ext = "R"
     )
   )
@@ -68,10 +68,10 @@ test_that("screenshots fail according to `strict` setting", {
   )
 })
 
-describe("roxy_tag_nifflerInsertSnaps", {
+describe("roxy_tag_crowInsertSnaps", {
   example <- brio::read_file(
     fs::path_package(
-      package = "niffler",
+      package = "crow",
       "examples", "snaps2fig", "example", ext = "R"
     )
   )
@@ -83,7 +83,7 @@ describe("roxy_tag_nifflerInsertSnaps", {
     "can be formatted",
     {
       topic <- roxygen2::roc_proc_text(roxygen2::rd_roclet(), example)[[1]]
-      expect_snapshot(topic$get_section("nifflerInsertSnaps"))
+      expect_snapshot(topic$get_section("crowInsertSnaps"))
     }
   )
 })
@@ -172,7 +172,7 @@ describe("map_snaps_animate", {
 })
 
 describe("snaps2fig and friends work", {
-  output_path <- "man/figures/niffler_screenshots/helpers/bins.gif"
+  output_path <- "man/figures/crow_screenshots/helpers/bins.gif"
   withr::defer(fs::file_delete(output_path))
   it("writes out snapshots to man folder", {
     res <- snaps2fig(
@@ -182,11 +182,11 @@ describe("snaps2fig and friends work", {
       variant = variant
     )
     checkmate::expect_file_exists(
-      "man/figures/niffler_screenshots/helpers/bins.gif"
+      "man/figures/crow_screenshots/helpers/bins.gif"
     )
     expect_equal(
       res,
-      fs::path("niffler_screenshots", "helpers", "bins", ext = "gif")
+      fs::path("crow_screenshots", "helpers", "bins", ext = "gif")
     )
   })
   it("writes out markdown syntax", {
