@@ -171,10 +171,10 @@ describe("map_snaps_animate", {
   })
 })
 
-describe("snaps2fig", {
+describe("snaps2fig and friends work", {
+  output_path <- "man/figures/niffler_screenshots/helpers/bins.gif"
+  withr::defer(fs::file_delete(output_path))
   it("writes out snapshots to man folder", {
-    output_path <- "man/figures/niffler_screenshots/helpers/bins.gif"
-    withr::defer(fs::file_delete(output_path))
     res <- snaps2fig(
       test_file = "helpers",
       name = "bins",
@@ -188,5 +188,14 @@ describe("snaps2fig", {
       res,
       fs::path("niffler_screenshots", "helpers", "bins", ext = "gif")
     )
+  })
+  it("writes out markdown syntax", {
+    res <- snaps2md(
+      test_file = "helpers",
+      name = "bins",
+      auto_numbered = FALSE,
+      variant = variant
+    )
+    expect_snapshot(res)
   })
 })

@@ -64,6 +64,13 @@
       topic$get_section("nifflerInsertSnaps")
     Output
       \section{Screenshots from Tests}{
-      \if{html}{\figure{niffler_screenshots/helpers/bins.gif}{options: width='100\%' alt='Screenshot from App'}}\if{latex}{Screenshots cannot be shown in this output format.}}
+      \if{html}{\figure{niffler_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
        
+
+# snaps2fig and friends work: writes out markdown syntax
+
+    Code
+      res
+    Output
+      [1] "![Screenshot from App](niffler_screenshots/helpers/bins.gif)"
 

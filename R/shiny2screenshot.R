@@ -162,6 +162,7 @@ get_screenshot_from_app_strictly <- function(appDir,
 #'    insert reused screenshots created by
 #'    [shinytest2](https://rstudio.github.io/shinytest2/) snapshot testing.
 #'    For arguments and defaults, see [snaps2fig()].
+#'    You can also use [snaps2md()] directly, without a custom tag.
 #' @usage
 #' # @nifflerInsertSnaps
 #' # ${1:test_file}
@@ -202,7 +203,9 @@ format.rd_section_nifflerInsertSnaps <- function(x, ...) {
     paste0(
       "{\\figure{",
       x$value,
-      "}{options: width='100\\%' alt='Screenshot from App'}}",
+      "}{options: width='100\\%' alt=",
+      snap_alt_text(),
+      "}}",
       collapse = ""
     ),
     "\\if{latex}{Screenshots cannot be shown in this output format.}",
@@ -257,6 +260,31 @@ snaps2fig <- function(test_file = character(),
   res <- image_write_snaps(snaps_img, path = path_for_results)
   # roxygen2/man markdown expects relative paths from here
   fs::path_rel(res, start = "man/figures")
+}
+
+snap_alt_text <- function() "Screenshot from App"
+
+#' @describeIn get_screenshot_from_snaps
+#' Save screenshots to `man/figures` and return markdown image markup,
+#' to be inserted in roxygen2 documentation.
+#' For a custom roxygen2 tag with equivalent funcionality,
+#' see [nifflerInsertSnaps()].
+#' @export
+snaps2md <- function(test_file = character(),
+                     name = NULL,
+                     auto_numbered = TRUE,
+                     variant = shinytest2::platform_variant(),
+                     fps = 5,
+                    ...) {
+  path <- snaps2fig(
+    test_file = test_file,
+    name = name,
+    auto_numbered = auto_numbered,
+    variant = variant,
+    fps = fps,
+    ...
+  )
+  paste0("![", snap_alt_text(), "](", path, ")", collapse = "")
 }
 
 #' @describeIn get_screenshot_from_snaps
