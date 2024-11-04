@@ -1,5 +1,5 @@
 #' An example documentation with inserted snaps
-#' @nifflerInsertSnaps
+#' @crowInsertSnaps
 #' helpers
 #' bins
 #' FALSE

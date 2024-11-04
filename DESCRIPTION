@@ -1,4 +1,4 @@
-Package: niffler
+Package: crow
 Title: Shiny development helpers
 Version: 0.0.0.9000
 Authors@R:
@@ -17,8 +17,8 @@ Authors@R:
     )
 Description:
     Helpers for shiny development.
-URL: https://github.com/dataheld/niffler, https://niffler.maxheld.de
-BugReports: https://github.com/dataheld/niffler/issues
+URL: https://github.com/dataheld/crow, https://crow.maxheld.de
+BugReports: https://github.com/dataheld/crow/issues
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true

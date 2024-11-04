@@ -21,7 +21,7 @@
 #' If you are testing screenshots,
 #' you are recommended to use [get_screenshot_args_attr()]
 #' to screenshot only your actual module UI,
-#' without the surrounding *niffler* boilerplate.
+#' without the surrounding *crow* boilerplate.
 #'
 #' @param module_ui,module_server
 #' Module functions.
@@ -49,7 +49,7 @@ module2app <- function(module_ui = NULL,
   attributes(res) <- c(
     attributes(res),
     list(
-      niffler_screenshot_args = list(
+      crow_screenshot_args = list(
         selector = paste0("#", inner_module_id)
       )
     )
@@ -88,7 +88,7 @@ module2app_ui <- function(module_ui = NULL,
   )
 }
 
-inner_module_id <- "niffler-module2app-module-ui"
+inner_module_id <- "crow-module2app-module-ui"
 
 #' @describeIn module2app Server
 #' @export
@@ -370,21 +370,21 @@ x_counter_button_server <- function(id, set_to = 2L, deep = FALSE) {
 
 # ==== helpers
 
-#' Retrieve `niffler_screenshot_args` attribute with screenshot settings
+#' Retrieve `crow_screenshot_args` attribute with screenshot settings
 #'
 #' An app may require special settings for a good screenshot.
 #' For example, you would usually only be interested in the Module UI
 #' part of apps created by [module2app()].
 #' [module2app()] supports this by setting the correct DOM selector
-#' and exposing it via the `niffler_screenshot_args`.
+#' and exposing it via the `crow_screenshot_args`.
 #'
 #' @details
-#' The `niffler_screenshot_args` attribute can be set on whatever
+#' The `crow_screenshot_args` attribute can be set on whatever
 #' object you pass to `appDir`.
 #' It should be a list passable to the `screenshot_args` argument
 #' of [`shinytest2::AppDriver`]'s `$new()` method.
 #' You *can* set all sorts of screenshot behavior that way,
-#' but same of these settings may break functionality in niffler.
+#' but same of these settings may break functionality in crow.
 #' It is known to work for DOM selection.
 #' @return
 #' A list for the `screenshot_args` argument
@@ -397,8 +397,8 @@ x_counter_button_server <- function(id, set_to = 2L, deep = FALSE) {
 #' @family modules
 #' @family documentation
 get_screenshot_args_attr <- function(appDir) {
-  if (has_niffler_attrs(appDir)) {
-    res <- attr(appDir, which = "niffler_screenshot_args")
+  if (has_crow_attrs(appDir)) {
+    res <- attr(appDir, which = "crow_screenshot_args")
     checkmate::assert_list(res)
     res
   } else {
@@ -406,6 +406,6 @@ get_screenshot_args_attr <- function(appDir) {
   }
 }
 
-has_niffler_attrs <- function(appDir) {
-  "niffler_screenshot_args" %in% names(attributes(appDir))
+has_crow_attrs <- function(appDir) {
+  "crow_screenshot_args" %in% names(attributes(appDir))
 }

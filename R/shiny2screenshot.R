@@ -14,29 +14,29 @@
 #' @name tag_shiny
 NULL
 
-# nifflerExamplesShiny tag ====
+# crowExamplesShiny tag ====
 
 #' @rdname tag_shiny
 #' @details
-#' - `@nifflerExamplesShiny$ {1:# example code}`
+#' - `@crowExamplesShiny$ {1:# example code}`
 #'    R code which returns a shiny app.
 #'    A screenshot of the shiny app is added to the documentation,
 #'    along with the code required to create the screenshot and
 #'    launch the app interactively.
 #'    Wraps @examples.
 #' @usage
-#' # @nifflerExamplesShiny ${1:# example code}
-#' @name nifflerExamplesShiny
+#' # @crowExamplesShiny ${1:# example code}
+#' @name crowExamplesShiny
 NULL
 
 #' @exportS3Method roxygen2::roxy_tag_parse
-roxy_tag_parse.roxy_tag_nifflerExamplesShiny <- function(x) {
+roxy_tag_parse.roxy_tag_crowExamplesShiny <- function(x) {
   check_installed_roxygen2()
   roxygen2::tag_examples(x)
 }
 
 #' @exportS3Method roxygen2::roxy_tag_rd
-roxy_tag_rd.roxy_tag_nifflerExamplesShiny <- function(x, base_path, env) {
+roxy_tag_rd.roxy_tag_crowExamplesShiny <- function(x, base_path, env) {
   call <- x[["val"]]
   x[["val"]] <- paste(
     "\\dontshow{",
@@ -148,11 +148,11 @@ get_screenshot_from_app_strictly <- function(appDir,
   driver$get_screenshot(file = file)
 }
 
-# nifflerInsertSnaps tag ====
+# crowInsertSnaps tag ====
 
 #' @rdname tag_shiny
 #' @details
-#' - `@nifflerInsertSnaps
+#' - `@crowInsertSnaps
 #'    ${1:test_file}
 #'    ${2:name}
 #'    ${3:auto_numbered}
@@ -164,38 +164,38 @@ get_screenshot_from_app_strictly <- function(appDir,
 #'    For arguments and defaults, see [snaps2fig()].
 #'    You can also use [snaps2md()] directly, without a custom tag.
 #' @usage
-#' # @nifflerInsertSnaps
+#' # @crowInsertSnaps
 #' # ${1:test_file}
 #' # ${2:name}
 #' # ${3:auto_numbered}
 #' # ${4:variant}
 #' # ${5:fps}
-#' @nifflerInsertSnaps
+#' @crowInsertSnaps
 #' helpers
 #' bins
 #' FALSE
 #' linux
-#' @name nifflerInsertSnaps
+#' @name crowInsertSnaps
 NULL
 
 #' @exportS3Method roxygen2::roxy_tag_parse
-roxy_tag_parse.roxy_tag_nifflerInsertSnaps <- function(x) {
+roxy_tag_parse.roxy_tag_crowInsertSnaps <- function(x) {
   check_installed_roxygen2()
   roxygen2::tag_words(x, min = 1, max = 5)
 }
 
 #' @exportS3Method roxygen2::roxy_tag_rd
-roxy_tag_rd.roxy_tag_nifflerInsertSnaps <- function(x, base_path, env) {
+roxy_tag_rd.roxy_tag_crowInsertSnaps <- function(x, base_path, env) {
   args <- as.list(x[["val"]])
   if (length(args) >= 2) args[[3]] <- as.logical(args[[3]])
   roxygen2::rd_section(
-    type = "nifflerInsertSnaps",
+    type = "crowInsertSnaps",
     value = rlang::exec(snaps2rd, !!!args)
   )
 }
 
 #' @export
-format.rd_section_nifflerInsertSnaps <- function(x, ...) {
+format.rd_section_crowInsertSnaps <- function(x, ...) {
   paste0(
     "\\section{Screenshots from Tests}{\n",
     "\\if{html}",
@@ -242,7 +242,7 @@ snaps2fig <- function(test_file = character(),
   path_for_results <- fs::path(
     "man",
     "figures",
-    "niffler_screenshots",
+    "crow_screenshots",
     test_file,
     if (!is.null(name)) name,
     ext = unique(magick::image_info(snaps_img)$format)
@@ -270,7 +270,7 @@ snaps2md <- function(...) {
 #' Save screenshots to `man/figures` and return R documentation image markup,
 #' to be inserted in R documentation.
 #' For a custom roxygen2 tag with equivalent funcionality,
-#' see [nifflerInsertSnaps()].
+#' see [crowInsertSnaps()].
 #' @export
 snaps2rd <- function(...) {
   path <- snaps2fig(...)

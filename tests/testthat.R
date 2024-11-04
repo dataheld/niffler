@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(niffler)
+library(crow)
 
-test_check("niffler")
+test_check("crow")

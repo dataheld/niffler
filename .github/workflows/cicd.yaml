@@ -146,6 +146,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN_PAGES }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID_HELDEN18DE }}
-          projectName: niffler
+          projectName: crow
           directory: docs/
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
