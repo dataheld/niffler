@@ -72,7 +72,7 @@ describe("roxy_tag_nifflerInsertSnaps", {
   example <- brio::read_file(
     fs::path_package(
       package = "niffler",
-      "examples", "snaps2man", "example", ext = "R"
+      "examples", "snaps2fig", "example", ext = "R"
     )
   )
   it(
@@ -92,7 +92,7 @@ describe("dir_ls_snaps", {
   it("finds manually numbered, named screenshots", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
-      regexp = glue_regexp_screenshot_files(
+      regexp = glue_regexp_snaps(
         name = "bins",
         auto_numbered = FALSE
       ),
@@ -103,7 +103,7 @@ describe("dir_ls_snaps", {
   it("finds automatically numbered, named screenshots", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
-      regexp = glue_regexp_screenshot_files(
+      regexp = glue_regexp_snaps(
         name = "mpg",
         auto_numbered = FALSE
       ),
@@ -114,7 +114,7 @@ describe("dir_ls_snaps", {
   it("finds automatically numbered, unnamed screenshots", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
-      regexp = glue_regexp_screenshot_files(),
+      regexp = glue_regexp_snaps(),
       variant = variant
     )
     expect_snapshot(snaps, variant = variant)
@@ -122,7 +122,7 @@ describe("dir_ls_snaps", {
   it("finds non-numbered, named screenshots", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
-      regexp = glue_regexp_screenshot_files(
+      regexp = glue_regexp_snaps(
         name = "foo",
         auto_numbered = FALSE
       ),
@@ -140,7 +140,7 @@ describe("map_snaps_animate", {
   it("reads in single screenshot", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
-      regexp = glue_regexp_screenshot_files(
+      regexp = glue_regexp_snaps(
         name = "foo",
         auto_numbered = FALSE
       ),
@@ -156,7 +156,7 @@ describe("map_snaps_animate", {
   it("reads in multiple screenshots", {
     snaps <- dir_ls_snaps(
       test_file = "helpers",
-      regexp = glue_regexp_screenshot_files(
+      regexp = glue_regexp_snaps(
         name = "bins",
         auto_numbered = FALSE
       ),
@@ -171,11 +171,11 @@ describe("map_snaps_animate", {
   })
 })
 
-describe("snaps2man", {
+describe("snaps2fig", {
   it("writes out snapshots to man folder", {
     output_path <- "man/figures/niffler_screenshots/helpers/bins.gif"
     withr::defer(fs::file_delete(output_path))
-    res <- snaps2man(
+    res <- snaps2fig(
       test_file = "helpers",
       name = "bins",
       auto_numbered = FALSE,

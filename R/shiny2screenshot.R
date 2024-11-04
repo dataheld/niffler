@@ -68,8 +68,6 @@ check_installed_shinytest2 <- function() {
   )
 }
 
-# TODO add link to snapshot-reuse function
-# https://github.com/dataheld/niffler/issues/13.
 #' Get screenshot from shiny app
 #'
 #' Wrapper around [shinytest2::AppDriver()].
@@ -160,9 +158,10 @@ get_screenshot_from_app_strictly <- function(appDir,
 #'    ${3:auto_numbered}
 #'    ${4:variant}
 #'    ${5:fps}`
-#'    Insert screenshots from
-#'    [shinytest2](https://rstudio.github.io/shinytest2/) snapshots.
-#'    For arguments and defaults, see [snaps2man()].
+#'    Instead of re-creating screenshots,
+#'    insert reused screenshots created by
+#'    [shinytest2](https://rstudio.github.io/shinytest2/) snapshot testing.
+#'    For arguments and defaults, see [snaps2fig()].
 #' @usage
 #' # @nifflerInsertSnaps
 #' # ${1:test_file}
@@ -188,7 +187,7 @@ roxy_tag_parse.roxy_tag_nifflerInsertSnaps <- function(x) {
 roxy_tag_rd.roxy_tag_nifflerInsertSnaps <- function(x, base_path, env) {
   args <- as.list(x[["val"]])
   if (length(args) >= 2) args[[3]] <- as.logical(args[[3]])
-  path <- rlang::exec(snaps2man, !!!args)
+  path <- rlang::exec(snaps2fig, !!!args)
   roxygen2::rd_section(
     type = "nifflerInsertSnaps",
     value = path
@@ -211,21 +210,21 @@ format.rd_section_nifflerInsertSnaps <- function(x, ...) {
   )
 }
 
-#' Get shinytest screenshots
+#' Get screenshots from snapshots
 #'
 #' Retrieves screenshots from
 #' [testthat](https://testthat.r-lib.org)'s `_snaps/` directory.
 #' If several files match `dir_ls_snaps()`,
 #' they are merged into an animated gif.
 #' @family documentation
-#' @name get_shinytest_screenshots
+#' @name get_screenshot_from_snaps
 NULL
 
-#' @describeIn get_shinytest_screenshots
+#' @describeIn get_screenshot_from_snaps
 #' Save screenshots to `man/figures` and return *relative* path from there.
-#' @inheritParams glue_regexp_screenshot_files
+#' @inheritParams glue_regexp_snaps
 #' @export
-snaps2man <- function(test_file = character(),
+snaps2fig <- function(test_file = character(),
                       name = NULL,
                       auto_numbered = TRUE,
                       variant = shinytest2::platform_variant(),
@@ -233,7 +232,7 @@ snaps2man <- function(test_file = character(),
                       ...) {
   snaps_paths <- dir_ls_snaps(
     test_file = test_file,
-    regexp = glue_regexp_screenshot_files(
+    regexp = glue_regexp_snaps(
       name = name,
       auto_numbered = auto_numbered
     ),
@@ -260,7 +259,7 @@ snaps2man <- function(test_file = character(),
   fs::path_rel(res, start = "man/figures")
 }
 
-#' @describeIn get_shinytest_screenshots
+#' @describeIn get_screenshot_from_snaps
 #' List all testthat `_snaps/` screenshots
 #' Finds all files for a variant, file and name.
 #'
@@ -282,7 +281,7 @@ snaps2man <- function(test_file = character(),
 #' @inheritParams fs::dir_ls
 #' @export
 dir_ls_snaps <- function(test_file = character(),
-                         regexp = glue_regexp_screenshot_files(),
+                         regexp = glue_regexp_snaps(),
                          variant = shinytest2::platform_variant()) {
   checkmate::assert_string(test_file)
   test_path <- testthat::test_path("_snaps", variant, test_file)
@@ -316,7 +315,7 @@ dir_ls_snaps <- function(test_file = character(),
 #' directly.
 #' @family documentation
 #' @export
-glue_regexp_screenshot_files <- function(name = NULL, auto_numbered = TRUE) {
+glue_regexp_snaps <- function(name = NULL, auto_numbered = TRUE) {
   checkmate::assert_string(name, null.ok = TRUE)
   checkmate::assert_flag(auto_numbered)
   glue::glue(
@@ -329,7 +328,7 @@ glue_regexp_screenshot_files <- function(name = NULL, auto_numbered = TRUE) {
   )
 }
 
-#' @describeIn get_shinytest_screenshots
+#' @describeIn get_screenshot_from_snaps
 #' Read in screenshot.
 #' If several, animate into a gif.
 #' @param snaps
@@ -351,7 +350,7 @@ image_animate_snaps <- function(snaps = fs::path(), fps = 5, ...) {
   }
 }
 
-#' @describeIn get_shinytest_screenshots
+#' @describeIn get_screenshot_from_snaps
 #' Write out (merged) screenshots to new path.
 #' @inheritParams magick::image_write
 #' @return For [image_write_snaps()], path to the (merged) screenshots.
