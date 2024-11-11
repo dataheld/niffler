@@ -77,6 +77,15 @@ test_that("works with arguments to ui and server", {
     capture.output(print(102))
   )
 })
+test_that("works with only server args", {
+  skip_if_load_all2()
+  driver <- shinytest2::AppDriver$new(module2app(server_args = list(c(1, 2))))
+  withr::defer(driver$stop())
+  expect_equal(
+    driver$get_value(output = "inputs-eval"),
+    "[[1]]\n[1] 1 2"
+  )
+})
 test_that("works with nested modules and flat returns", {
   shiny::testServer(
     module2app_server(x_counter_button_server),

@@ -94,9 +94,13 @@ inner_module_id <- "crow-module2app-module-ui"
 #' @export
 module2app_server <- function(module_server = NULL, server_args = list()) {
   checkmate::assert_function(module_server, args = c("id"), null.ok = TRUE)
-  if (is.null(module_server)) module_server <- no_fun_provided_server
   checkmate::assert_list(server_args)
-  module_server <- purrr::partial(module_server, !!!server_args)
+  if (is.null(module_server)) {
+    module_server <- no_fun_provided_server
+  } else {
+    # partialising above boilerplate with server args makes no sense
+    module_server <- purrr::partial(module_server, !!!server_args)
+  }
   function(input, output, session) {
     mixed_react_tree_server(id = "inputs", tree = server_args)
     res <- module_server(id = "test_object")
@@ -210,7 +214,6 @@ mixed_react_tree_server <- function(id, tree = shiny::reactive(NULL)) {
     function(input, output, session) {
       output$unev <- shiny::renderPrint(tree)
       output$eval <- shiny::renderPrint(exec_tree_of_reacs(tree))
-      tree
     }
   )
 }
