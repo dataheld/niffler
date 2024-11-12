@@ -212,8 +212,38 @@ mixed_react_tree_server <- function(id, tree = shiny::reactive(NULL)) {
   shiny::moduleServer(
     id = id,
     function(input, output, session) {
-      output$unev <- shiny::renderPrint(tree)
-      output$eval <- shiny::renderPrint(exec_tree_of_reacs(tree))
+      output$unev <- shiny::renderPrint(
+        tree |>
+          filter_tree_shinytag()
+      )
+      output$eval <- shiny::renderPrint(
+        tree |>
+          exec_tree_of_reacs() |>
+          filter_tree_shinytag()
+      )
+    }
+  )
+}
+
+# TODO remove this as per https://github.com/dataheld/crow/issues/38
+#' There is appears to be a bug (in positron?)
+#' by which `shiny.tag` objects *always* get opened in the Viewer,
+#' which breaks and/or overrides the shiny app preview.
+#'
+#' This just skips all shinytag returns.
+#' @noRd
+is_shinytag <- function(x) {
+  inherits(x, "shiny.tag") || inherits(x, "shiny.tag.list")
+}
+
+filter_tree_shinytag <- function(x) {
+  purrr::modify_tree(
+    x,
+    leaf = function(x) {
+      # this returns a character vector,
+      # though proper behavior would be the html `cat`ed to console
+      if (is_shinytag(x)) x <- format(x)
+      x
     }
   )
 }

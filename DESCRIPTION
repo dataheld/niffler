@@ -35,6 +35,7 @@ Imports:
 Suggests:
     bslib,
     brio,
+    htmltools,
     elf,
     roxygen2,
     shinytest2,

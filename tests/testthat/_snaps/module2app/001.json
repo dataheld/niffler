@@ -1,0 +1,5 @@
+{
+  "output": {
+    "inputs-eval": "$bar\n[1] 1\n\n$zap\n[1] \"<p><\/p>\""
+  }
+}

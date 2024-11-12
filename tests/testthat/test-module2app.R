@@ -86,6 +86,15 @@ test_that("works with only server args", {
     "[[1]]\n[1] 1 2"
   )
 })
+test_that("works with `shiny.tag` returns (workaround)", {
+  announce_snapshot_file("001.json")
+  skip_if_load_all2()
+  driver <- shinytest2::AppDriver$new(
+    module2app(server_args = list(bar = 1, zap = htmltools::p()))
+  )
+  withr::defer(driver$stop())
+  driver$expect_values(output = "inputs-eval", screenshot_args = FALSE)
+})
 test_that("works with nested modules and flat returns", {
   shiny::testServer(
     module2app_server(x_counter_button_server),
