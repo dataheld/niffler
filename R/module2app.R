@@ -94,9 +94,13 @@ inner_module_id <- "crow-module2app-module-ui"
 #' @export
 module2app_server <- function(module_server = NULL, server_args = list()) {
   checkmate::assert_function(module_server, args = c("id"), null.ok = TRUE)
-  if (is.null(module_server)) module_server <- no_fun_provided_server
   checkmate::assert_list(server_args)
-  module_server <- purrr::partial(module_server, !!!server_args)
+  if (is.null(module_server)) {
+    module_server <- no_fun_provided_server
+  } else {
+    # partialising above boilerplate with server args makes no sense
+    module_server <- purrr::partial(module_server, !!!server_args)
+  }
   function(input, output, session) {
     mixed_react_tree_server(id = "inputs", tree = server_args)
     res <- module_server(id = "test_object")
@@ -208,9 +212,38 @@ mixed_react_tree_server <- function(id, tree = shiny::reactive(NULL)) {
   shiny::moduleServer(
     id = id,
     function(input, output, session) {
-      output$unev <- shiny::renderPrint(tree)
-      output$eval <- shiny::renderPrint(exec_tree_of_reacs(tree))
-      tree
+      output$unev <- shiny::renderPrint(
+        tree |>
+          filter_tree_shinytag()
+      )
+      output$eval <- shiny::renderPrint(
+        tree |>
+          exec_tree_of_reacs() |>
+          filter_tree_shinytag()
+      )
+    }
+  )
+}
+
+# TODO remove this as per https://github.com/dataheld/crow/issues/38
+#' There is appears to be a bug (in positron?)
+#' by which `shiny.tag` objects *always* get opened in the Viewer,
+#' which breaks and/or overrides the shiny app preview.
+#'
+#' This just skips all shinytag returns.
+#' @noRd
+is_shinytag <- function(x) {
+  inherits(x, "shiny.tag") || inherits(x, "shiny.tag.list")
+}
+
+filter_tree_shinytag <- function(x) {
+  purrr::modify_tree(
+    x,
+    leaf = function(x) {
+      # this returns a character vector,
+      # though proper behavior would be the html `cat`ed to console
+      if (is_shinytag(x)) x <- format(x)
+      x
     }
   )
 }

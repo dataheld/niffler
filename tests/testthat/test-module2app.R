@@ -77,6 +77,27 @@ test_that("works with arguments to ui and server", {
     capture.output(print(102))
   )
 })
+test_that("works with only server args", {
+  skip_if_load_all2()
+  driver <- shinytest2::AppDriver$new(module2app(server_args = list(c(1, 2))))
+  withr::defer(driver$stop())
+  expect_equal(
+    driver$get_value(output = "inputs-eval"),
+    "[[1]]\n[1] 1 2"
+  )
+})
+test_that("works with `shiny.tag` returns (workaround)", {
+  announce_snapshot_file("001.json")
+  skip_if_load_all2()
+  driver <- shinytest2::AppDriver$new(
+    module2app(server_args = list(bar = 1, zap = htmltools::p()))
+  )
+  withr::defer(driver$stop())
+  expect_snapshot(
+    driver$get_value(output = "inputs-eval"),
+    transform = purrr::compose(elf::transform_with_generated)
+  )
+})
 test_that("works with nested modules and flat returns", {
   shiny::testServer(
     module2app_server(x_counter_button_server),

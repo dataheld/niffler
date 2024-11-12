@@ -57,6 +57,14 @@
 
     "Counter"
 
+# works with `shiny.tag` returns (workaround)
+
+    Code
+      driver$get_value(output = "inputs-eval")
+    Output
+      <!--@generated-->
+      [1] "$bar\n[1] 1\n\n$zap\n[1] \"<p></p>\""
+
 # works with nested modules and deep returns
 
     "$increment_by\n[1] 1\n\n$count_by\n[1] 2\n\n$a_non_reactive_return\n[1] \"just for testing\"\n\n$deeper_copy_of_increment_by\n$deeper_copy_of_increment_by$increment_by\n[1] 1\n"
