@@ -93,7 +93,10 @@ test_that("works with `shiny.tag` returns (workaround)", {
     module2app(server_args = list(bar = 1, zap = htmltools::p()))
   )
   withr::defer(driver$stop())
-  driver$expect_values(output = "inputs-eval", screenshot_args = FALSE)
+  expect_snapshot(
+    driver$get_value(output = "inputs-eval"),
+    transform = purrr::compose(elf::transform_with_generated)
+  )
 })
 test_that("works with nested modules and flat returns", {
   shiny::testServer(
