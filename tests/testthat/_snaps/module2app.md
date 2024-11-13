@@ -63,7 +63,7 @@
       driver$get_value(output = "inputs-eval")
     Output
       <!--@generated-->
-      [1] "$bar\n[1] 1\n\n$zap\n[1] \"<p></p>\""
+      [1] "$bar\n[1] 1\n\n$zap\ncharacter(0)"
 
 # works with nested modules and deep returns
 

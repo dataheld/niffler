@@ -241,9 +241,8 @@ filter_tree_shinytag <- function(x) {
   purrr::modify_tree(
     x,
     leaf = function(x) {
-      # this returns a character vector,
-      # though proper behavior would be the html `cat`ed to console
-      if (is_shinytag(x)) x <- format(x)
+      # this is the equivalent to no print output to the console
+      if (is_shinytag(x)) x <- character(0)
       x
     }
   )
