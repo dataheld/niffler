@@ -164,6 +164,13 @@ no_fun_provided_glue <- function(x) glue::glue("No {x} function provided.")
 #' these reactives might be invalidated at a different time in your use
 #' of your modules outside of this testbed.
 #'
+#' @section Bugs:
+#' The display currently includes workarounds for these (likely upstream) bugs:
+#' - The content of reactive gets [unclass()]ed
+#'   before display ([#40](https://github.com/dataheld/crow/issues/40)).
+#' - Some classes from the htmltools package get [format()]ted, not [print()]ed
+#'   ([#39](https://github.com/dataheld/crow/issues/38)).
+#'
 #' @details
 #' In the simplest case,
 #' modules accept or return a single reactive- or non-reactive value.
