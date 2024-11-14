@@ -79,7 +79,7 @@ module2app_ui <- function(module_ui = NULL,
     shiny::h2("Server Input Arguments"),
     mixed_react_tree_ui("inputs"),
     shiny::h2("Module UI"),
-    shiny::div(
+    shiny::wellPanel(
       module_ui(id = "test_object"),
       id = inner_module_id
     ),
