@@ -226,7 +226,7 @@ mixed_react_tree_server <- function(id, tree = shiny::reactive(NULL)) {
 }
 
 # TODO remove this as per https://github.com/dataheld/crow/issues/38
-#' There is appears to be a bug (in positron?)
+#' There appears to be a bug (in positron?)
 #' by which `shiny.tag` (and similarly classed) objects
 #' *always* get opened in the Viewer,
 #' which breaks and/or overrides the shiny app preview.
@@ -234,7 +234,7 @@ mixed_react_tree_server <- function(id, tree = shiny::reactive(NULL)) {
 #' This just skips all shinytag returns.
 #' @noRd
 is_shinytag <- function(x) {
-  inherits(x, c("shiny.tag", "shiny.tag.list", "html"))
+  inherits(x, c("shiny.tag", "shiny.tag.list"))
 }
 
 filter_tree_shinytag <- function(x) {
@@ -263,6 +263,8 @@ is_list_or_reactive <- function(x) {
 exec_if_reactive <- function(x) {
   if (shiny::is.reactive(x)) {
     x <- rlang::exec(x)
+    # TODO remove this workaround for https://github.com/dataheld/crow/issues/40
+    x <- unclass(x)
   }
   x
 }
