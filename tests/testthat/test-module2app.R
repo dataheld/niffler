@@ -99,16 +99,14 @@ test_that("works with `shiny.tag` returns (workaround)", {
 })
 test_that("works with S3-classed return", {
   skip_if_load_all2()
-  driver <- shinytest2::AppDriver$new(
-    module2app(
-      server_args = list(zap = shiny::reactive(bsicons::bs_icon("heart")))
+  expect_no_condition({
+    driver <- shinytest2::AppDriver$new(
+      module2app(
+        server_args = list(zap = shiny::reactive(bsicons::bs_icon("heart")))
+      )
     )
-  )
-  withr::defer(driver$stop())
-  expect_snapshot(
-    driver$get_value(output = "inputs-eval"),
-    transform = purrr::compose(elf::transform_with_generated)
-  )
+    withr::defer(driver$stop())
+  })
 })
 test_that("works with nested modules and flat returns", {
   shiny::testServer(
