@@ -241,7 +241,7 @@ mixed_react_tree_server <- function(id, tree = shiny::reactive(NULL)) {
 #' This just skips all shinytag returns.
 #' @noRd
 is_shinytag <- function(x) {
-  inherits(x, c("shiny.tag", "shiny.tag.list"))
+  inherits(x, c("shiny.tag", "shiny.tag.list", "html"))
 }
 
 filter_tree_shinytag <- function(x) {
