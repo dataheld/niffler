@@ -50,7 +50,10 @@ module2app <- function(module_ui = NULL,
     attributes(res),
     list(
       crow_screenshot_args = list(
-        selector = paste0("#", inner_module_id)
+        # need to select down to child
+        # because only that actually has a height
+        # the parent div may not, and will then fail the screenshot
+        selector = paste0("#", inner_module_id, " > *")
       )
     )
   )
@@ -79,7 +82,7 @@ module2app_ui <- function(module_ui = NULL,
     shiny::h2("Server Input Arguments"),
     mixed_react_tree_ui("inputs"),
     shiny::h2("Module UI"),
-    shiny::wellPanel(
+    shiny::div(
       module_ui(id = "test_object"),
       id = inner_module_id
     ),

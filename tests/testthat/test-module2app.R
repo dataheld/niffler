@@ -140,7 +140,7 @@ test_that("works with bs5", {
     )
   )
 })
-correct_attr <- list(selector = paste0("#", inner_module_id))
+correct_attr <- list(selector = paste0("#", inner_module_id, " > *"))
 test_that("returns attribute with dom selector", {
   expect_equal(
     attr(module2app(counter_button_ui), "crow_screenshot_args"),
