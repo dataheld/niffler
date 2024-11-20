@@ -212,7 +212,7 @@ format.rd_section_crowInsertSnaps <- function(x, ...) {
   paste0(
     "\\section{Screenshots from Tests}{\n",
     "\\if{html}",
-    x$value,
+    paste(x$value, collapse = "\n"),
     "\\if{latex}{Screenshots cannot be shown in this output format.}",
     "}\n"
   )

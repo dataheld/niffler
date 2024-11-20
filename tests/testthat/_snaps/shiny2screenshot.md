@@ -73,9 +73,8 @@
       topic$get_section("crowInsertSnaps")
     Output
       \section{Screenshots from Tests}{
-      \if{html}{\figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
-       \section{Screenshots from Tests}{
-      \if{html}{\figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
+      \if{html}{\figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}
+      {\figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
        
 
 # snaps2fig and friends work: writes out markdown syntax
