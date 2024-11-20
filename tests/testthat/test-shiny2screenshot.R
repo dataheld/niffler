@@ -72,7 +72,7 @@ describe("roxy_tag_crowInsertSnaps", {
   example <- brio::read_file(
     fs::path_package(
       package = "crow",
-      "examples", "snaps2fig", "example", ext = "R"
+      "examples", "snaps2fig", "single", ext = "R"
     )
   )
   it(
