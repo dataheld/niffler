@@ -11,23 +11,16 @@
 #'
 #' @section Usage in Packages:
 #' If you want to use these tags in your own packages,
-#' you need to import the *crow* namespace,
-#' to let roxygen2 find these new tags.
+#' you need let roxygen2 know about *crow*.
 #'
-#' Place this somewhere in your `R/` source:
-#'
-#' ```
-#' #' @import crow
-#' ```
-#'
-#' Without this, you may receive an error message like this:
+#' To do that, append this line to your `DESCRIPTION`:
 #'
 #' ```
-#' ... @crowInsertSnaps is not a known tag.
+#' Roxygen: list(packages =  "crow")
 #' ```
 #'
-#' This is a workaround until a proper solution can be found
-#' in []
+#' If you already have other arguments specified for Roxygen,
+#' just add `packages` list element.
 #'
 #' @family screenshot
 #'
