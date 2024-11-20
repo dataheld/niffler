@@ -9,6 +9,26 @@
 #' But for quick reference, a screenshot or gif of a shiny app
 #' are still helpful for the reader of your documentation.
 #'
+#' @section Usage in Packages:
+#' If you want to use these tags in your own packages,
+#' you need to import the *crow* namespace,
+#' to let roxygen2 find these new tags.
+#'
+#' Place this somewhere in your `R/` source:
+#'
+#' ```
+#' #' @import crow
+#' ```
+#'
+#' Without this, you may receive an error message like this:
+#'
+#' ```
+#' ... @crowInsertSnaps is not a known tag.
+#' ```
+#'
+#' This is a workaround until a proper solution can be found
+#' in []
+#'
 #' @family screenshot
 #'
 #' @name tag_shiny
