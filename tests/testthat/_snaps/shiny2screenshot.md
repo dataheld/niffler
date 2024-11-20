@@ -40,10 +40,10 @@
 # roxy_tag_crowInsertSnaps: can be parsed
 
     Code
-      roxygen2::parse_text(example)[[1]]$tags
+      roxygen2::parse_text(single)[[1]]$tags
     Output
       [[1]]
-      [<text>:  1] @title 'An example documentation with inserted snaps' {parsed}
+      [<text>:  1] @title 'An example documentation with inserted snaps fr...' {parsed}
       
       [[2]]
       [<text>:  2] @crowInsertSnaps '...' {parsed}
@@ -58,12 +58,23 @@
       [<text>:  7] @backref '<generated>' {parsed}
       
 
-# roxy_tag_crowInsertSnaps: can be formatted
+# roxy_tag_crowInsertSnaps: can be formatted with single tag
 
     Code
       topic$get_section("crowInsertSnaps")
     Output
       \section{Screenshots from Tests}{
+      \if{html}{\figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
+       
+
+# roxy_tag_crowInsertSnaps: can be formatted with multiple tags joined
+
+    Code
+      topic$get_section("crowInsertSnaps")
+    Output
+      \section{Screenshots from Tests}{
+      \if{html}{\figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
+       \section{Screenshots from Tests}{
       \if{html}{\figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
        
 
