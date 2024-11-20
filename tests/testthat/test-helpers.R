@@ -28,6 +28,7 @@ test_that("example app for automatically numbered, named screenshots", {
     name = "mpg",
     variant = shinytest2::platform_variant(r_version = FALSE)
   )
+  withr::defer(driver$stop())
   driver$expect_screenshot()
   driver$expect_screenshot()
 })
@@ -40,6 +41,7 @@ test_that("example app for automatically numbered, unnamed screenshots", {
     examples_app("05_sliders"),
     variant = shinytest2::platform_variant(r_version = FALSE)
   )
+  withr::defer(driver$stop())
   driver$expect_screenshot()
   driver$expect_screenshot()
 })
