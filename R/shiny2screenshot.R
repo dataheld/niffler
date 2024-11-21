@@ -201,6 +201,9 @@ roxy_tag_parse.roxy_tag_crowInsertSnaps <- function(x) {
 roxy_tag_rd.roxy_tag_crowInsertSnaps <- function(x, base_path, env) {
   args <- as.list(x[["val"]])
   if (length(args) >= 2) args[[3]] <- as.logical(args[[3]])
+  possible_names <- c("test_file", "name", "auto_numbered", "variant", "fps")
+  # this is fine because the order of arguments for tags is always the same
+  names(args) <- possible_names[seq_along(args)]
   roxygen2::rd_section(
     type = "crowInsertSnaps",
     value = rlang::exec(snaps2rd, !!!args)
@@ -212,7 +215,7 @@ format.rd_section_crowInsertSnaps <- function(x, ...) {
   paste0(
     "\\section{Screenshots from Tests}{\n",
     "\\if{html}",
-    x$value,
+    paste(x$value, collapse = "\n"),
     "\\if{latex}{Screenshots cannot be shown in this output format.}",
     "}\n"
   )
@@ -285,15 +288,31 @@ snaps2md <- function(...) {
 #' For a custom roxygen2 tag with equivalent funcionality,
 #' see [crowInsertSnaps()].
 #' @export
-snaps2rd <- function(...) {
-  path <- snaps2fig(...)
-  paste0(
-    "{\\figure{",
-    path,
-    "}{options: width='100\\%' alt=",
-    snap_alt_text(),
-    "}}",
-    collapse = ""
+snaps2rd <- function(test_file = character(),
+                     name = NULL,
+                     auto_numbered = TRUE,
+                     variant = shinytest2::platform_variant(),
+                     fps = 5) {
+  path <- snaps2fig(
+    test_file = test_file,
+    name = name,
+    auto_numbered = auto_numbered,
+    variant = variant,
+    fps = fps
+  )
+  glue::glue_collapse(
+    c(
+      glue::glue("{{name: \\code{{{name}}}, variant: \\code{{{variant}}}"),
+      paste0(
+        "\\figure{",
+        path,
+        "}{options: width='100\\%' alt=",
+        snap_alt_text(),
+        "}}",
+        collapse = ""
+      )
+    ),
+    sep = " "
   )
 }
 

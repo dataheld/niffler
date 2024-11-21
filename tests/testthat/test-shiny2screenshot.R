@@ -69,7 +69,7 @@ test_that("screenshots fail according to `strict` setting", {
 })
 
 describe("roxy_tag_crowInsertSnaps", {
-  example <- brio::read_file(
+  single <- brio::read_file(
     fs::path_package(
       package = "crow",
       "examples", "snaps2fig", "single", ext = "R"
@@ -77,12 +77,25 @@ describe("roxy_tag_crowInsertSnaps", {
   )
   it(
     "can be parsed",
-    expect_snapshot(roxygen2::parse_text(example)[[1]]$tags)
+    expect_snapshot(roxygen2::parse_text(single)[[1]]$tags)
   )
   it(
-    "can be formatted",
+    "can be formatted with single tag",
     {
-      topic <- roxygen2::roc_proc_text(roxygen2::rd_roclet(), example)[[1]]
+      topic <- roxygen2::roc_proc_text(roxygen2::rd_roclet(), single)[[1]]
+      expect_snapshot(topic$get_section("crowInsertSnaps"))
+    }
+  )
+  multiple <- brio::read_file(
+    fs::path_package(
+      package = "crow",
+      "examples", "snaps2fig", "multiple", ext = "R"
+    )
+  )
+  it(
+    "can be formatted with multiple tags joined",
+    {
+      topic <- roxygen2::roc_proc_text(roxygen2::rd_roclet(), multiple)[[1]]
       expect_snapshot(topic$get_section("crowInsertSnaps"))
     }
   )
