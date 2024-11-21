@@ -203,7 +203,7 @@ roxy_tag_rd.roxy_tag_crowInsertSnaps <- function(x, base_path, env) {
   if (length(args) >= 2) args[[3]] <- as.logical(args[[3]])
   possible_names <- c("test_file", "name", "auto_numbered", "variant", "fps")
   # this is fine because the order of arguments for tags is always the same
-  names(args) <- possible_names[1:length(args)]
+  names(args) <- possible_names[seq_along(args)]
   roxygen2::rd_section(
     type = "crowInsertSnaps",
     value = rlang::exec(snaps2rd, !!!args)
