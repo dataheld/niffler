@@ -119,8 +119,8 @@ RUN pip3 install --no-cache-dir \
   radian
 SHELL ["Rscript", "-e"]
 
-ARG R_DEPS_DEVTIME="usethis, languageserver, servr" 
-# when list of devtime dep pkgs changes, 
+ARG R_DEPS_DEVTIME="usethis, languageserver, servr"
+# when list of devtime dep pkgs changes,
 # apt-get update needs to run again,
 # to ensure that apt-get install emitted by pak work
 RUN ["/bin/bash", "-c", "apt-get update"]
