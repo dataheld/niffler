@@ -217,13 +217,16 @@ glue_latex <- function(..., .envir = parent.frame()) {
 #' @export
 format.rd_section_crowInsertSnaps <- function(x, ...) {
   inner <- glue::glue_collapse(x$value, sep = "\n")
+  # appease check
+  inner
   glue_latex(
-    "\\section{Screenshots from Tests}
-    \\if{html}{
-      [inner]
-    }
-    \\if{latex}{
-      Screenshots cannot be shown in this output format.
+    "\\section{Screenshots from Tests}{
+      \\if{html}{
+        [inner]
+      }
+      \\if{latex}{
+        Screenshots cannot be shown in this output format.
+      }
     }"
   )
 }
