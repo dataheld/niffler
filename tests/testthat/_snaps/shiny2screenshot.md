@@ -82,5 +82,5 @@
     Code
       res
     Output
-      [1] "![Screenshot from App](crow_screenshots/helpers/bins.gif)"
+      ![Screenshot from App](crow_screenshots/helpers/bins.gif)
 
