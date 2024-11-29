@@ -310,6 +310,8 @@ snaps2rd <- function(test_file = character(),
     variant = variant,
     fps = fps
   )
+  # appease make check
+  path
   glue_latex(
     "name: \\code{[name]}, variant: \\code{[variant]}
     \\figure{[path]}{options: width='100\\%' alt=[snap_alt_text()]}"
