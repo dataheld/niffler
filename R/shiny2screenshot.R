@@ -279,7 +279,7 @@ snap_alt_text <- function() "Screenshot from App"
 #' @export
 snaps2md <- function(...) {
   path <- snaps2fig(...)
-  paste0("![", snap_alt_text(), "](", path, ")", collapse = "")
+  glue::glue("![{snap_alt_text()}]({path})")
 }
 
 #' @describeIn get_screenshot_from_snaps
