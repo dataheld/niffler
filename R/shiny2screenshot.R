@@ -210,14 +210,24 @@ roxy_tag_rd.roxy_tag_crowInsertSnaps <- function(x, base_path, env) {
   )
 }
 
+glue_latex <- function(..., .envir = parent.frame()) {
+  glue::glue(..., .envir = .envir, .open = "[", .close = "]")
+}
+
 #' @export
 format.rd_section_crowInsertSnaps <- function(x, ...) {
-  paste0(
-    "\\section{Screenshots from Tests}{\n",
-    "\\if{html}",
-    paste(x$value, collapse = "\n"),
-    "\\if{latex}{Screenshots cannot be shown in this output format.}",
-    "}\n"
+  inner <- glue::glue_collapse(x$value, sep = "\n")
+  # appease check
+  inner
+  glue_latex(
+    "\\section{Screenshots from Tests}{
+      \\if{html}{
+        [inner]
+      }
+      \\if{latex}{
+        Screenshots cannot be shown in this output format.
+      }
+    }"
   )
 }
 
@@ -279,7 +289,7 @@ snap_alt_text <- function() "Screenshot from App"
 #' @export
 snaps2md <- function(...) {
   path <- snaps2fig(...)
-  paste0("![", snap_alt_text(), "](", path, ")", collapse = "")
+  glue::glue("![{snap_alt_text()}]({path})")
 }
 
 #' @describeIn get_screenshot_from_snaps
@@ -300,19 +310,11 @@ snaps2rd <- function(test_file = character(),
     variant = variant,
     fps = fps
   )
-  glue::glue_collapse(
-    c(
-      glue::glue("{{name: \\code{{{name}}}, variant: \\code{{{variant}}}"),
-      paste0(
-        "\\figure{",
-        path,
-        "}{options: width='100\\%' alt=",
-        snap_alt_text(),
-        "}}",
-        collapse = ""
-      )
-    ),
-    sep = " "
+  # appease make check
+  path
+  glue_latex(
+    "name: \\code{[name]}, variant: \\code{[variant]}
+    \\figure{[path]}{options: width='100\\%' alt=[snap_alt_text()]}"
   )
 }
 
