@@ -310,19 +310,9 @@ snaps2rd <- function(test_file = character(),
     variant = variant,
     fps = fps
   )
-  glue::glue_collapse(
-    c(
-      glue::glue("{{name: \\code{{{name}}}, variant: \\code{{{variant}}}"),
-      paste0(
-        "\\figure{",
-        path,
-        "}{options: width='100\\%' alt=",
-        snap_alt_text(),
-        "}}",
-        collapse = ""
-      )
-    ),
-    sep = " "
+  glue_latex(
+    "name: \\code{[name]}, variant: \\code{[variant]}
+    \\figure{[path]}{options: width='100\\%' alt=[snap_alt_text()]}"
   )
 }
 
