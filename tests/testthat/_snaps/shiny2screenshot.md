@@ -63,19 +63,27 @@
     Code
       topic$get_section("crowInsertSnaps")
     Output
-      \section{Screenshots from Tests}{
-      \if{html}{name: \code{bins}, variant: \code{linux} \figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
-       
+      \section{Screenshots from Tests}
+      \if{html}{
+        name: \code{bins}, variant: \code{linux}
+      }
+      \if{latex}{
+        Screenshots cannot be shown in this output format.
+      } 
 
 # roxy_tag_crowInsertSnaps: can be formatted with multiple tags joined
 
     Code
       topic$get_section("crowInsertSnaps")
     Output
-      \section{Screenshots from Tests}{
-      \if{html}{name: \code{bins}, variant: \code{linux} \figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}
-      {name: \code{bins}, variant: \code{mac} \figure{crow_screenshots/helpers/bins.gif}{options: width='100\%' alt=Screenshot from App}}\if{latex}{Screenshots cannot be shown in this output format.}}
-       
+      \section{Screenshots from Tests}
+      \if{html}{
+        name: \code{bins}, variant: \code{linux}
+      name: \code{bins}, variant: \code{mac}
+      }
+      \if{latex}{
+        Screenshots cannot be shown in this output format.
+      } 
 
 # snaps2fig and friends work: writes out markdown syntax
 

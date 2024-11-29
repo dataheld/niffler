@@ -210,14 +210,21 @@ roxy_tag_rd.roxy_tag_crowInsertSnaps <- function(x, base_path, env) {
   )
 }
 
+glue_latex <- function(..., .envir = parent.frame()) {
+  glue::glue(..., .envir = .envir, .open = "[", .close = "]")
+}
+
 #' @export
 format.rd_section_crowInsertSnaps <- function(x, ...) {
-  paste0(
-    "\\section{Screenshots from Tests}{\n",
-    "\\if{html}",
-    paste(x$value, collapse = "\n"),
-    "\\if{latex}{Screenshots cannot be shown in this output format.}",
-    "}\n"
+  inner <- glue::glue_collapse(x$value, sep = "\n")
+  glue_latex(
+    "\\section{Screenshots from Tests}
+    \\if{html}{
+      [inner]
+    }
+    \\if{latex}{
+      Screenshots cannot be shown in this output format.
+    }"
   )
 }
 
